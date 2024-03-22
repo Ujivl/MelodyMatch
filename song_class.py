@@ -1,3 +1,7 @@
+"""
+Song class file
+"""
+
 
 class Song:
     """
