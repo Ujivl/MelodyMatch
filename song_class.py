@@ -26,5 +26,4 @@ class Song:
         - valence: positivity of the song, closer to 1.0 correlates to more positivity, (float)
         - tempo: the tempo of the song recorded in beats per minute (float)
         - genre: the list of genres in the song (list[str])
-
     """
