@@ -1,0 +1,27 @@
+artist,song,duration_ms,explicit,year,popularity,danceability,energy,key,loudness,mode,speechiness,acousticness,instrumentalness,liveness,valence,tempo,genre
+Britney Spears,Oops!...I Did It Again,211160,False,2000,77,0.751,0.834,1,-5.444,0,0.0437,0.3,1.77e-05,0.355,0.894,95.053,pop
+blink-182,All The Small Things,167066,False,1999,79,0.434,0.897,0,-4.918,1,0.0488,0.0103,0.0,0.612,0.684,148.726,"rock, pop"
+Faith Hill,Breathe,250546,False,1999,66,0.529,0.496,7,-9.007,1,0.029,0.173,0.0,0.251,0.278,136.859,"pop, country"
+Bon Jovi,It's My Life,224493,False,2000,78,0.551,0.913,0,-4.063,0,0.0466,0.0263,1.35e-05,0.347,0.544,119.992,"rock, metal"
+*NSYNC,Bye Bye Bye,200560,False,2000,65,0.614,0.928,8,-4.806,0,0.0516,0.0408,0.00104,0.0845,0.879,172.656,pop
+Sisqo,Thong Song,253733,True,1999,69,0.706,0.888,2,-6.959,1,0.0654,0.119,9.64e-05,0.07,0.714,121.549,"hip hop, pop, R&B"
+Eminem,The Real Slim Shady,284200,True,2000,86,0.949,0.661,5,-4.244,0,0.0572,0.0302,0.0,0.0454,0.76,104.504,hip hop
+Robbie Williams,Rock DJ,258560,False,2000,68,0.708,0.772,7,-4.264,1,0.0322,0.0267,0.0,0.467,0.861,103.035,"pop, rock"
+Destiny's Child,Say My Name,271333,False,1999,75,0.713,0.678,5,-3.525,0,0.102,0.273,0.0,0.149,0.734,138.009,"pop, R&B"
+Modjo,Lady - Hear Me Tonight,307153,False,2001,77,0.72,0.808,6,-5.627,1,0.0379,0.00793,0.0293,0.0634,0.869,126.041,Dance/Electronic
+Gigi D'Agostino,L'Amour Toujours,238759,False,2011,1,0.617,0.728,7,-7.932,1,0.0292,0.0328,0.0482,0.36,0.808,139.066,pop
+Eiffel 65,Move Your Body - Gabry Ponte Original Radio Edit,268863,False,1999,56,0.745,0.958,7,-9.664,1,0.0287,0.0813,0.324,0.533,0.96,129.962,pop
+Bomfunk MC's,Freestyler,306333,False,2000,55,0.822,0.922,11,-5.798,0,0.0989,0.0291,0.325,0.252,0.568,163.826,pop
+Sting,Desert Rose,285960,False,1999,62,0.586,0.659,0,-7.92,0,0.0304,0.011,0.0,0.106,0.147,111.989,"rock, pop"
+Melanie C,Never Be The Same Again,294200,False,1999,61,0.689,0.685,3,-5.153,1,0.0478,0.0921,0.0,0.119,0.398,160.067,"pop, Dance/Electronic"
+Aaliyah,Try Again,284000,False,2002,53,0.797,0.622,6,-5.642,0,0.29,0.0807,0.0,0.0841,0.731,93.02,"hip hop, pop, R&B"
+Anastacia,I'm Outta Love - Radio Edit,245400,False,1999,64,0.761,0.716,10,-5.8,0,0.056,0.396,0.0,0.0771,0.649,119.41,pop
+Alice Deejay,Better Off Alone,214883,False,2000,73,0.671,0.88,8,-6.149,0,0.0552,0.00181,0.691,0.285,0.782,136.953,pop
+Gigi D'Agostino,The Riddle,285426,False,1999,64,0.74,0.876,6,-6.87,0,0.0369,0.0173,0.00152,0.0785,0.825,127.002,pop
+Dr. Dre,The Next Episode,161506,True,1999,82,0.922,0.909,10,-2.429,0,0.27,0.0281,0.0,0.0856,0.309,95.295,hip hop
+Linkin Park,In the End,216880,False,2000,83,0.556,0.864,3,-5.87,0,0.0584,0.00958,0.0,0.209,0.4,105.143,"rock, metal"
+Tom Jones,Sexbomb,211893,False,1999,65,0.801,0.876,8,-3.94,0,0.0446,0.144,1.38e-05,0.104,0.932,122.979,"rock, Folk/Acoustic, easy listening"
+Sonique,It Feels So Good,240866,False,2000,62,0.634,0.677,5,-7.278,0,0.0304,0.0117,0.00103,0.126,0.558,135.012,pop
+M.O.P.,Cold as Ice,244466,True,2000,54,0.656,0.88,11,-5.425,0,0.143,0.0421,0.0,0.294,0.758,85.565,hip hop
+Eminem,Stan,404106,True,2000,83,0.78,0.768,6,-4.325,0,0.238,0.0371,2.34e-06,0.518,0.507,80.063,hip hop
+Britney Spears,Overprotected - Radio Edit,198600,False,2001,61,0.682,0.894,0,-1.73,0,0.0727,0.0381,0.0,0.416,0.845,95.992,pop
