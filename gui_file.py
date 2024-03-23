@@ -1,21 +1,14 @@
 """
 file implementing the gui of the application
 """
-# import tkinter as tk
-#
-# root = tk.Tk()
-# root.geometry("600x800")
-# root.title("MelodyMatcher")
-#
-# root.mainloop()
 import tkinter as tk
 
 class DragDropListbox(tk.Listbox):
     """A Listbox with drag-and-drop reordering of items"""
 
-    def __init__(self, master, **kw):
+    def __init__(self, root, **kw):
         kw['selectmode'] = tk.SINGLE
-        tk.Listbox.__init__(self, master, kw)
+        tk.Listbox.__init__(self, root, kw)
         self.bind('<Button-1>', self.setCurrent)
         self.bind('<B1-Motion>', self.shiftSelection)
         self.curIndex = None
@@ -39,6 +32,9 @@ class DragDropListbox(tk.Listbox):
             self.curIndex = i
 
 class PrioritizeApp:
+    """
+    doing something right now i dont really knwo right now
+    """
     def __init__(self, master):
         self.master = master
 
@@ -63,7 +59,7 @@ class PrioritizeApp:
 def main():
     # Create the tkinter window and PrioritizeApp instance
     root = tk.Tk()
-    app = PrioritizeApp(root)
+    PrioritizeApp(root)
     root.title("MelodyMatcher")
     root.geometry("600x800")
     root.mainloop()
