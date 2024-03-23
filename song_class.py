@@ -79,4 +79,4 @@ with open("songs_test_small.csv", 'r') as song_file:
                     float(row[12]), float(row[13]), float(row[14]), float(row[15]), "".split(row[16]))
         li.append(song)
 for i in li:
-    print(i.valence)
+    print(i.artist)
