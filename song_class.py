@@ -1,6 +1,8 @@
 """
 Song class file
 """
+from __future__ import annotations
+import csv
 
 
 class Song:
@@ -31,3 +33,50 @@ class Song:
         - tempo: the tempo of the song recorded in beats per minute (float)
         - genre: the list of genres in the song (list[str])
     """
+
+    artist: str
+    song_name: str
+    explicit: bool
+    year: int
+    popularity: int
+    danceability: float
+    speechiness: float
+    acousticness: float
+    instrumentalness: float
+    valence: float
+    tempo: float
+    genre: list[str]
+
+    def __init__(self, artist: str, song_name: str, explicit: bool, year: int, popularity: int, danceability: float,
+                 speechiness: float, acousticness: float, instrumentalness: float, valence: float, tempo: float,
+                 genre: list[str]) -> None:
+        """
+        Initializes a new song object with the attributes in the csv file
+        """
+        self.artist = artist
+        self.song_name = song_name
+        self.explicit = explicit
+        self.year = year
+        self.popularity = popularity
+        self.danceability = danceability
+        self.speechiness = speechiness
+        self.acousticness = acousticness
+        self.instrumentalness = instrumentalness
+        self.valence = valence
+        self.tempo = tempo
+        self.genre = genre
+
+
+################################################################################################
+# Test parser, prints all the artist names in the small test csv file
+################################################################################################
+with open("songs_test_small.csv", 'r') as song_file:
+    line_reader = csv.reader(song_file)
+    li = []
+    song_file.readline()
+    for row in line_reader:
+        song = Song(row[0], row[1], bool(row[3]), int(row[4]), int(row[5]), float(row[6]), float(row[11]),
+                    float(row[12]), float(row[13]), float(row[14]), float(row[15]), "".split(row[16]))
+        li.append(song)
+for i in li:
+    print(i.valence)
