@@ -3,6 +3,7 @@ Song class file
 """
 from __future__ import annotations
 import csv
+from typing import Any, Union
 
 
 class Song:
@@ -80,3 +81,35 @@ with open("songs_test_small.csv", 'r') as song_file:
         li.append(song)
 for i in li:
     print(i.artist)
+
+
+class _WeightedVertex:
+    """A vertex in a weighted book review graph, used to represent a user or a book.
+
+    Same documentation as _Vertex from Exercise 3, except now neighbours is a dictionary mapping
+    a neighbour vertex to the weight of the edge to from self to that neighbour.
+    Note that for this exercise, the weights will be integers between 1 and 5.
+
+    Instance Attributes:
+        - item: The data stored in this vertex, representing a user or book.
+        - kind: The type of this vertex: 'user' or 'book'.
+        - neighbours: The vertices that are adjacent to this vertex, and their corresponding
+            edge weights.
+
+    Representation Invariants:
+        - self not in self.neighbours
+        - all(self in u.neighbours for u in self.neighbours)
+        - self.kind in {'user', 'book'}
+    """
+    item: Any
+    neighbours: dict[_WeightedVertex, Union[int, float]]
+
+    def __init__(self, item: Any, neighbours: dict[_WeightedVertex, Union[int, float]]):
+        self.item = item
+        self.neighbours = neighbours
+
+class WeightedGraph:
+    """
+    A weighted graph with each song being the node and each edge having a weight to denote similarity between songs.
+    """
+    _vertices: dict[Any, _WeightedVertex]
