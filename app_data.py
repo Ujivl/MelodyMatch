@@ -68,6 +68,74 @@ class Song:
         self.genre = genre
 
 
+class _WeightedVertex:
+    """A vertex in a weighted book review graph, used to represent a Song.
+
+    Instance Attributes:
+        - item: The data stored in this vertex, representing a song.
+        - neighbours: The vertices that are adjacent to this vertex, and their corresponding
+            edge weights.
+
+    Representation Invariants:
+        - self not in self.neighbours
+        - all(self in u.neighbours for u in self.neighbours)
+    """
+    item: Any
+    neighbours: dict[_WeightedVertex, float]
+
+    def __init__(self, item: Any, neighbours: dict[_WeightedVertex, float]):
+        self.item = item
+        self.neighbours = neighbours
+
+
+class WeightedGraph:
+    """
+    A weighted graph with each song being the node and each edge having a weight to denote similarity between songs.
+
+    """
+    # Private Instance Attributes:
+    #     - _vertices:
+    #         A collection of the vertices contained in this graph.
+    #         Maps item to _WeightedVertex object.
+
+    _vertices: dict[Song, _WeightedVertex]
+
+    def __init__(self) -> None:
+        """Initialize an empty graph (no vertices or edges)."""
+        self._vertices = {}
+
+    def add_vertex(self, item: Song) -> None:
+        """Add a vertex with the given item to this graph.
+
+        The new vertex is not adjacent to any other vertices.
+
+        Preconditions:
+            - item not in self._vertices
+        """
+        if item not in self._vertices:
+            self._vertices[item] = _WeightedVertex(item, {})
+
+    def add_edge(self, item1: Any, item2: Any, weight: float) -> None:
+        """Add an edge between the two vertices with the given items in this graph,
+        with the given weight.
+
+        Raise a ValueError if item1 or item2 do not appear as vertices in this graph.
+
+        Preconditions:
+            - item1 != item2
+        """
+        if item1 in self._vertices and item2 in self._vertices:
+            v1 = self._vertices[item1]
+            v2 = self._vertices[item2]
+
+            # Add the new edge
+            v1.neighbours[v2] = weight
+            v2.neighbours[v1] = weight
+        else:
+            # We didn't find an existing vertex for both items.
+            raise ValueError
+
+
 ################################################################################################
 # Test parser, prints all the artist names in the small test csv file
 ################################################################################################
@@ -81,35 +149,3 @@ with open("songs_test_small.csv", 'r') as song_file:
         li.append(song)
 for i in li:
     print(i.artist)
-
-
-class _WeightedVertex:
-    """A vertex in a weighted book review graph, used to represent a user or a book.
-
-    Same documentation as _Vertex from Exercise 3, except now neighbours is a dictionary mapping
-    a neighbour vertex to the weight of the edge to from self to that neighbour.
-    Note that for this exercise, the weights will be integers between 1 and 5.
-
-    Instance Attributes:
-        - item: The data stored in this vertex, representing a user or book.
-        - kind: The type of this vertex: 'user' or 'book'.
-        - neighbours: The vertices that are adjacent to this vertex, and their corresponding
-            edge weights.
-
-    Representation Invariants:
-        - self not in self.neighbours
-        - all(self in u.neighbours for u in self.neighbours)
-        - self.kind in {'user', 'book'}
-    """
-    item: Any
-    neighbours: dict[_WeightedVertex, Union[int, float]]
-
-    def __init__(self, item: Any, neighbours: dict[_WeightedVertex, Union[int, float]]):
-        self.item = item
-        self.neighbours = neighbours
-
-class WeightedGraph:
-    """
-    A weighted graph with each song being the node and each edge having a weight to denote similarity between songs.
-    """
-    _vertices: dict[Any, _WeightedVertex]
