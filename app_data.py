@@ -148,7 +148,7 @@ class WeightedGraph:
                 continue
             else:
                 for factors in prioritylist:
-                    #  Remember to check for genres
+                    #  Remember to check for genres and explicit
                     if factors == "genre":
                         raise NotImplementedError
                     else:
