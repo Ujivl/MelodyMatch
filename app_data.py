@@ -47,6 +47,7 @@ class Song:
     valence: float
     tempo: float
     genre: list[str]
+    similarity_factors: dict
 
     def __init__(self, artist: str, song_name: str, explicit: bool, year: int, popularity: int, danceability: float,
                  speechiness: float, acousticness: float, instrumentalness: float, valence: float, tempo: float,
@@ -57,15 +58,17 @@ class Song:
         self.artist = artist
         self.song_name = song_name
         self.explicit = explicit
-        self.year = year
-        self.popularity = popularity
         self.danceability = danceability
-        self.speechiness = speechiness
-        self.acousticness = acousticness
-        self.instrumentalness = instrumentalness
-        self.valence = valence
-        self.tempo = tempo
-        self.genre = genre
+        self.similarity_factors = {
+            "year released": year,
+            "popularity": popularity,
+            "danceability": danceability,
+            "speechiness": speechiness,
+            "acousticness": acousticness,
+            "instrumentalness": instrumentalness,
+            "valence": valence,
+            "tempo": tempo,
+            "genre": genre}
 
 
 class _WeightedVertex:
@@ -115,7 +118,7 @@ class WeightedGraph:
         if item not in self._vertices:
             self._vertices[item] = _WeightedVertex(item, {})
 
-    def add_edge(self, item1: Any, item2: Any, weight: float) -> None:
+    def add_edge(self, item1: Any, item2: Any, weight: float = 0) -> None:
         """Add an edge between the two vertices with the given items in this graph,
         with the given weight.
 
@@ -135,17 +138,40 @@ class WeightedGraph:
             # We didn't find an existing vertex for both items.
             raise ValueError
 
+    def add_all_weighted_edges(self, chosen_song: Song, prioritylist: dict[str, int], explicit: bool) -> None:
+        """
+        Adds the edges to the weighted graph we made, this is also where the similarity score will be calculated
+        """
+        for other_song in self._vertices:
+            weight = 0
+            if chosen_song == other_song:
+                continue
+            else:
+                for factors in prioritylist:
+                    #  Remember to check for genres
+                    if factors == "genre":
+                        raise NotImplementedError
+                    else:
+                        weight += (1 / abs(Song.similarity_factors[factors] - other_song.similarity_factors[factors])) * prioritylist[factors]
+                self.add_edge(chosen_song, other_song, weight)
 
-################################################################################################
-# Test parser, prints all the artist names in the small test csv file
-################################################################################################
-with open("songs_test_small.csv", 'r') as song_file:
-    line_reader = csv.reader(song_file)
-    li = []
-    song_file.readline()
-    for row in line_reader:
-        song = Song(row[0], row[1], bool(row[3]), int(row[4]), int(row[5]), float(row[6]), float(row[11]),
-                    float(row[12]), float(row[13]), float(row[14]), float(row[15]), "".split(row[16]))
-        li.append(song)
-for i in li:
-    print(i.artist)
+
+def create_graph_without_edges(file: str) -> WeightedGraph:
+    """
+    Returns a weighted graph without any edge connections yet.
+    """
+    g = WeightedGraph()
+    with open(file, 'r') as song_file:
+        line_reader = csv.reader(song_file)
+        song_file.readline()
+        for row in line_reader:
+            song = Song(row[0], row[1], bool(row[3]), int(row[4]), int(row[5]), float(row[6]), float(row[11]),
+                        float(row[12]), float(row[13]), float(row[14]), float(row[15]), "".split(row[16]))
+            g.add_vertex(song)
+    return g
+
+
+#  This will be called at the begining of the gui_file
+create_graph_without_edges("songs_test_small.csv")
+so = Song("hello", "yuh", True, 12, 13, 0.1, 0.2, 0.3,
+          0.4, 0.5, 0.6, ["happy", "sad", "sad", "sad", "sad", "sad", "sad"])
