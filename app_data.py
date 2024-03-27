@@ -189,7 +189,7 @@ class WeightedGraph:
             print(i.item.song_name)
 
 
-def create_graph_without_edges_and_list(file: str) -> tuple[WeightedGraph, li[str]]:
+def create_graph_without_edges_and_list(file: str) -> tuple[WeightedGraph, list[str]]:
     """
     Returns a weighted graph without any edge connections yet.
     """
