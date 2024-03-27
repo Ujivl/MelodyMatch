@@ -3,7 +3,7 @@ Song class file
 """
 from __future__ import annotations
 import csv
-from typing import Any, Union
+from typing import Any, Optional
 
 
 class Song:
@@ -118,7 +118,7 @@ class WeightedGraph:
         if item not in self._vertices:
             self._vertices[item] = _WeightedVertex(item, {})
 
-    def add_edge(self, item1: Any, item2: Any, weight: float = 0) -> None:
+    def add_edge(self, item1: Any, item2: Any, weight: float = 0.0) -> None:
         """Add an edge between the two vertices with the given items in this graph,
         with the given weight.
 
@@ -144,25 +144,41 @@ class WeightedGraph:
         """
         for other_song in self._vertices:
             weight = 0
-            if chosen_song == other_song or explicit != chosen_song.explicit:
+            if chosen_song.song_name == other_song.song_name:
+                continue
+            elif explicit != other_song.explicit:
+                self.add_edge(chosen_song, other_song, 0)
                 continue
             else:
                 for factor in prioritylist:
-                    weight += self.calculate_initial_weight(factor, other_song)
-
+                    weight += (self.calculate_initial_weight(factor, other_song, chosen_song) * prioritylist[factor])
             self.add_edge(chosen_song, other_song, weight)
 
-    def calculate_initial_weight(self, factor: str, other_song: Song) -> float:
+    def calculate_initial_weight(self, factor: str, other_song: Song, chosen_song: Song) -> float:
         """
         Helper function to calculate the initial weights before multiplying them by the priority list.
         """
         if factor == "genre":
-            raise NotImplementedError
-        elif abs(Song.similarity_factors[factor] - other_song.similarity_factors[factor]) != 0:
-            return 1/(abs(Song.similarity_factors[factor] - other_song.similarity_factors[factor]))
+            numerator = len(chosen_song.similarity_factors[factor].intersection(other_song.similarity_factors[factor]))
+            denominator = len(chosen_song.similarity_factors[factor].union(other_song.similarity_factors[factor]))
+            return numerator / denominator
+        elif abs(chosen_song.similarity_factors[factor] - other_song.similarity_factors[factor]) != 0:
+            return 1/(abs(chosen_song.similarity_factors[factor] - other_song.similarity_factors[factor]))
         else:
             return 1.0
 
+    def return_chosen_song(self, chosen_song_name: str) -> Optional[Song, str]:
+        for song in self._vertices:
+            if chosen_song_name == song.song_name:
+                return song
+        return "song does not exist"
+
+    def print_weights(self, chosen_song: Song):
+        for other_songs in self._vertices:
+            if chosen_song.song_name == other_songs.song_name:
+                continue
+            else:
+                print(f"{other_songs.song_name} similarity: {self._vertices[chosen_song].neighbours[self._vertices[other_songs]]}")
 
 def create_graph_without_edges(file: str) -> WeightedGraph:
     """
@@ -173,13 +189,14 @@ def create_graph_without_edges(file: str) -> WeightedGraph:
         line_reader = csv.reader(song_file)
         song_file.readline()
         for row in line_reader:
-            song = Song(row[0], row[1], bool(row[3]), int(row[4]), int(row[5]), float(row[6]), float(row[11]),
+            song = Song(row[0], row[1], (row[3] == "True"), int(row[4]), int(row[5]), float(row[6]), float(row[11]),
                         float(row[12]), float(row[13]), float(row[14]), float(row[15]), set("".split(row[16])))
             g.add_vertex(song)
     return g
 
 
 #  This will be called at the begining of the gui_file
-create_graph_without_edges("songs_test_small.csv")
-so = Song("hello", "yuh", True, 12, 13, 0.1, 0.2, 0.3,
-          0.4, 0.5, 0.6, {"happy", "sad", "test", "sad", "uhidk", "happy", "sad"})
+g = create_graph_without_edges("songs_test_small.csv")
+song = g.return_chosen_song("Oops!...I Did It Again")
+g.add_all_weighted_edges(chosen_song=song, prioritylist={'popularity': 9, 'danceability': 8, 'year released': 7, 'valence': 6, 'genre': 5, 'speechiness': 4, 'tempo': 3, 'acousticness': 2, 'instrumentalness': 1}, explicit=False)
+g.print_weights(song)
