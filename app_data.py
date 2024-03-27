@@ -46,12 +46,12 @@ class Song:
     instrumentalness: float
     valence: float
     tempo: float
-    genre: list[str]
+    genre: set[str]
     similarity_factors: dict
 
     def __init__(self, artist: str, song_name: str, explicit: bool, year: int, popularity: int, danceability: float,
                  speechiness: float, acousticness: float, instrumentalness: float, valence: float, tempo: float,
-                 genre: list[str]) -> None:
+                 genre: set[str]) -> None:
         """
         Initializes a new song object with the attributes in the csv file
         """
@@ -144,16 +144,24 @@ class WeightedGraph:
         """
         for other_song in self._vertices:
             weight = 0
-            if chosen_song == other_song:
+            if chosen_song == other_song or explicit != chosen_song.explicit:
                 continue
             else:
-                for factors in prioritylist:
-                    #  Remember to check for genres and explicit
-                    if factors == "genre":
-                        raise NotImplementedError
-                    else:
-                        weight += (1 / abs(Song.similarity_factors[factors] - other_song.similarity_factors[factors])) * prioritylist[factors]
-                self.add_edge(chosen_song, other_song, weight)
+                for factor in prioritylist:
+                    weight += self.calculate_initial_weight(factor, other_song)
+
+            self.add_edge(chosen_song, other_song, weight)
+
+    def calculate_initial_weight(self, factor: str, other_song: Song) -> float:
+        """
+        Helper function to calculate the initial weights before multiplying them by the priority list.
+        """
+        if factor == "genre":
+            raise NotImplementedError
+        elif abs(Song.similarity_factors[factor] - other_song.similarity_factors[factor]) != 0:
+            return 1/(abs(Song.similarity_factors[factor] - other_song.similarity_factors[factor]))
+        else:
+            return 1.0
 
 
 def create_graph_without_edges(file: str) -> WeightedGraph:
@@ -166,7 +174,7 @@ def create_graph_without_edges(file: str) -> WeightedGraph:
         song_file.readline()
         for row in line_reader:
             song = Song(row[0], row[1], bool(row[3]), int(row[4]), int(row[5]), float(row[6]), float(row[11]),
-                        float(row[12]), float(row[13]), float(row[14]), float(row[15]), "".split(row[16]))
+                        float(row[12]), float(row[13]), float(row[14]), float(row[15]), set("".split(row[16])))
             g.add_vertex(song)
     return g
 
@@ -174,4 +182,4 @@ def create_graph_without_edges(file: str) -> WeightedGraph:
 #  This will be called at the begining of the gui_file
 create_graph_without_edges("songs_test_small.csv")
 so = Song("hello", "yuh", True, 12, 13, 0.1, 0.2, 0.3,
-          0.4, 0.5, 0.6, ["happy", "sad", "sad", "sad", "sad", "sad", "sad"])
+          0.4, 0.5, 0.6, {"happy", "sad", "test", "sad", "uhidk", "happy", "sad"})
