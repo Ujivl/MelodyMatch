@@ -122,11 +122,11 @@ def save_all_information(priority_list: PrioritizeApp, drag_drop_object: Dropdow
     """
     drag_drop_object.on_select()
     priority_list.save_prioritization()
-    user_selected_song = g.return_chosen_song(drag_drop_object.selected_song)
+    user_selected_song = g.return_and_save_chosen_song(drag_drop_object.selected_song)
     g.add_all_weighted_edges(chosen_song=user_selected_song,
                              prioritylist=priority_list.attributes_with_weights,
                              explicit=explicit)
-    g.print_weights(chosen_song=user_selected_song)
+    g.sort_weights(10)
 
 
 def main():

@@ -83,10 +83,10 @@ class _WeightedVertex:
         - self not in self.neighbours
         - all(self in u.neighbours for u in self.neighbours)
     """
-    item: Any
+    item: Song
     neighbours: dict[_WeightedVertex, float]
 
-    def __init__(self, item: Any, neighbours: dict[_WeightedVertex, float]):
+    def __init__(self, item: Song, neighbours: dict[_WeightedVertex, float]):
         self.item = item
         self.neighbours = neighbours
 
@@ -102,6 +102,7 @@ class WeightedGraph:
     #         Maps item to _WeightedVertex object.
 
     _vertices: dict[Song, _WeightedVertex]
+    chosen_song: Song
 
     def __init__(self) -> None:
         """Initialize an empty graph (no vertices or edges)."""
@@ -168,26 +169,24 @@ class WeightedGraph:
         else:
             return 10000.0
 
-    def return_chosen_song(self, chosen_song_name: str) -> Optional[Song, str]:
+    def return_and_save_chosen_song(self, chosen_song_name: str) -> Optional[Song, str]:
         """
         Returns the song object from the name of the song.
         """
         for song in self._vertices:
             if chosen_song_name == song.song_name:
+                self.chosen_song = song
                 return song
         return "song does not exist"
 
-    def print_weights(self, chosen_song: Song):
+    def sort_weights(self, num_of_songs: int):
         """
         Prints the weights of the song, this is just a test function wer prolly gonna get rid of it after finishing
         the app.
         """
-
-        for other_songs in self._vertices:
-            if chosen_song.song_name == other_songs.song_name:
-                continue
-            else:
-                print(f"{other_songs.song_name} similarity with {chosen_song.song_name}: {self._vertices[chosen_song].neighbours[self._vertices[other_songs]]}")
+        sorted_dict = dict(sorted(self._vertices[self.chosen_song].neighbours.items(), key=lambda item: item[1], reverse=True)[:num_of_songs])
+        for i in sorted_dict:
+            print(i.item.song_name)
 
 
 def create_graph_without_edges_and_list(file: str) -> tuple[WeightedGraph, li[str]]:
