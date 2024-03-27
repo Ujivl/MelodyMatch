@@ -56,6 +56,7 @@ class PrioritizeApp:
     """
 `
     """
+
     def __init__(self, root):
         self.root = root
 
@@ -72,20 +73,51 @@ class PrioritizeApp:
             "genre"
         ]
 
-        # Create a DragDropListbox and fill it with items
-        self.listbox = DragDropListbox(root, "gray")
-        for item in self.items:
-            self.listbox.insert(tk.END, item)
-        self.listbox.pack(fill=tk.BOTH, expand=True, padx=120, pady=175)
+        self.entries = {}
 
-        # Button to save prioritization
-        self.save_button = tk.Button(root, text="Save Prioritization", command=self.save_prioritization)
-        self.save_button.pack(pady=50)
+        for item in self.items:
+            self.question_label = tk.Label(root, text=item)
+            self.question_label.pack(padx=10, pady=5)
+
+            answer_entry = tk.Entry(root, width=50)
+            answer_entry.pack(padx=10, pady=5)
+
+            self.entries[item] = answer_entry
+
+        self.submit_button = tk.Button(root, text="Submit", command=self.submit_answer)
+        self.submit_button.pack(pady=10)
+
+    def submit_answer(self):
+        all_answers = {item: entry.get() for item, entry in self.entries.items()}
+        print(all_answers)
+
+        print(verify(all_answers))
+
+        if all([all_answers[key] != "" for key in all_answers.keys()]) and verify(all_answers):
+            #NEW WINDOW to display the artists that they match with...
+            self.open_new_window()
+
+        else:
+            print("please answer all questions")
+
+    def open_new_window(self):
+        """
+        Create new window...
+        """
+        self.root.destroy()
+
+        new_root = tk.Tk()
+        new_root.title("New Window")
+        new_root.geometry("400x500")
+
+        tk.Label(new_root, text="This is a new window.").pack()
+
+        new_root.mainloop()
 
     def save_prioritization(self):
         """
-        Saves the prioritized items and prints them out for now, this will chance later.
-        """
+            Saves the prioritized items and prints them out for now, this will chance later.
+            """
         attributes_with_weights = {}
         weight = 9
         prioritized_attributes = self.listbox.get(0, tk.END)
@@ -93,6 +125,20 @@ class PrioritizeApp:
             attributes_with_weights[attribute] = weight
             weight -= 1
         print("Prioritized Items with weights: " + str(attributes_with_weights))
+
+
+def verify(all_answers) -> bool:
+    """
+    Verify every input so it is correct...
+
+    """
+    verify_list = [bool] #NOT SURE?
+    verify_list.append((all_answers["year released"].isdigit()
+                        and 2010 <= int(all_answers["year released"]) <= 2020))
+
+    print(verify_list)
+
+    return all(verify_list)
 
 
 def main():
@@ -103,7 +149,7 @@ def main():
     root = tk.Tk()
     PrioritizeApp(root)
     root.title("MelodyMatcher")
-    root.geometry("400x500")
+    root.geometry("400x700")
     root.mainloop()
 
 
