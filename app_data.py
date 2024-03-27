@@ -142,43 +142,53 @@ class WeightedGraph:
         """
         Adds the edges to the weighted graph we made, this is also where the similarity score will be calculated
         """
-        for other_song in self._vertices:
+        for other_song in self._vertices:  # Iterates through all the songs in the graph
             weight = 0
-            if chosen_song.song_name == other_song.song_name:
+            if chosen_song.song_name == other_song.song_name:  # If other song is the chosen song, we ignore
                 continue
-            elif explicit != other_song.explicit:
-                self.add_edge(chosen_song, other_song, 0)
-                continue
+            elif explicit != other_song.explicit:  # filtering out whether we want explicit or not
+                self.add_edge(chosen_song, other_song, 0.0)  # adds an edge with 0 as weight
             else:
-                for factor in prioritylist:
+                for factor in prioritylist:  # this will loop through each factor and add it to the vertex
+                    # calls the calculate initial weight function to get a raw weight then prioritizes it
                     weight += (self.calculate_initial_weight(factor, other_song, chosen_song) * prioritylist[factor])
-            self.add_edge(chosen_song, other_song, weight)
+                self.add_edge(chosen_song, other_song, weight)  # adds an edge with the calcucated weight
 
     def calculate_initial_weight(self, factor: str, other_song: Song, chosen_song: Song) -> float:
         """
         Helper function to calculate the initial weights before multiplying them by the priority list.
         """
         if factor == "genre":
+            #  Uses intersection over union to get similarity value for all the genres
             numerator = len(chosen_song.similarity_factors[factor].intersection(other_song.similarity_factors[factor]))
             denominator = len(chosen_song.similarity_factors[factor].union(other_song.similarity_factors[factor]))
             return numerator / denominator
         elif abs(chosen_song.similarity_factors[factor] - other_song.similarity_factors[factor]) != 0:
             return 1/(abs(chosen_song.similarity_factors[factor] - other_song.similarity_factors[factor]))
         else:
-            return 1.0
+            return 1.0  # TODO: we need to change this to a value that gives it more importance.
 
     def return_chosen_song(self, chosen_song_name: str) -> Optional[Song, str]:
+        """
+        Returns the song object from the name of the song.
+        """
         for song in self._vertices:
             if chosen_song_name == song.song_name:
                 return song
         return "song does not exist"
 
     def print_weights(self, chosen_song: Song):
+        """
+        Prints the weights of the song, this is just a test function wer prolly gonna get rid of it after finishing
+        the app.
+        """
+
         for other_songs in self._vertices:
             if chosen_song.song_name == other_songs.song_name:
                 continue
             else:
                 print(f"{other_songs.song_name} similarity: {self._vertices[chosen_song].neighbours[self._vertices[other_songs]]}")
+
 
 def create_graph_without_edges(file: str) -> WeightedGraph:
     """
@@ -199,10 +209,10 @@ def create_graph_without_edges(file: str) -> WeightedGraph:
 g = create_graph_without_edges("songs_test_small.csv")
 
 # Pretend that this is the song that the user picked
-song = g.return_chosen_song("Oops!...I Did It Again")
+song1 = g.return_chosen_song("Oops!...I Did It Again")
 
 # we make the weighted edges based on what the user picked, including priority list
-g.add_all_weighted_edges(chosen_song=song, prioritylist={'popularity': 9, 'danceability': 8, 'year released': 7, 'valence': 6, 'genre': 5, 'speechiness': 4, 'tempo': 3, 'acousticness': 2, 'instrumentalness': 1}, explicit=False)
+g.add_all_weighted_edges(chosen_song=song1, prioritylist={'genre': 9, 'danceability': 8, 'year released': 7, 'valence': 6, 'popularity': 5, 'speechiness': 4, 'tempo': 3, 'acousticness': 2, 'instrumentalness': 1}, explicit=False)
 
-# print all the weights, we have to sort these and then print like the highest 10 or something idk
-g.print_weights(song)
+# print all the weights, we have to sort these and then print like the highest 10 or something idk popularity
+g.print_weights(song1)
