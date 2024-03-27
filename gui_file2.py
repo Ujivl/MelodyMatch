@@ -3,7 +3,7 @@ file implementing the gui of the application
 """
 import tkinter as tk
 from typing import Union
-
+import app_data as ad
 
 class DragDropListbox(tk.Listbox):
     """A Listbox with drag-and-drop reordering of items"""
@@ -58,6 +58,9 @@ class PrioritizeApp:
     """
     doing something right now i dont really know right now
     """
+
+    attributes_with_weights: dict[str, int]
+
     def __init__(self, root):
         self.root = root
 
@@ -81,6 +84,8 @@ class PrioritizeApp:
             self.listbox.insert(tk.END, item)
         self.listbox.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 
+        self.attributes_with_weights = {}
+
         # Button to save prioritization
         self.save_button = tk.Button(root, text="Save Prioritization", command=self.save_prioritization)
         self.save_button.pack(pady=50)
@@ -89,13 +94,12 @@ class PrioritizeApp:
         """
         Saves the prioritized items and prints them out for now, this will chance later.
         """
-        attributes_with_weights = {}
         weight = 9
         prioritized_attributes = self.listbox.get(0, tk.END)
         for attribute in prioritized_attributes:
-            attributes_with_weights[attribute] = weight
+            self.attributes_with_weights[attribute] = weight
             weight -= 1
-        print("Prioritized Items with weights: " + str(attributes_with_weights))
+        print("Prioritized Items with weights: " + str(self.attributes_with_weights))
 
 
 def main():
@@ -103,10 +107,20 @@ def main():
     The main function file, this is where the root and main window is called.
     """
     # Create the tkinter window and PrioritizeApp instance
+    g = ad.create_graph_without_edges("songs_test_small.csv")
     root = tk.Tk()
-    PrioritizeApp(root)
+    priority_app = PrioritizeApp(root)
     root.title("MelodyMatcher")
     root.geometry("400x500")
+
+    if priority_app.attributes_with_weights != {}:
+        print("working")
+        user_selected_song = g.return_chosen_song("Lifestyles of the Rich & Famous")
+        g.add_all_weighted_edges(chosen_song=user_selected_song,
+                                 prioritylist=priority_app.attributes_with_weights,
+                                 explicit=False)
+        g.print_weights(chosen_song=user_selected_song)
+
     root.mainloop()
 
 

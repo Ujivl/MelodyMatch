@@ -203,16 +203,3 @@ def create_graph_without_edges(file: str) -> WeightedGraph:
                         float(row[12]), float(row[13]), float(row[14]), float(row[15]), set("".split(row[16])))
             g.add_vertex(song)
     return g
-
-
-#  This will be called at the begining of the gui_file
-g = create_graph_without_edges("songs_test_small.csv")
-
-# Pretend that this is the song that the user picked
-song1 = g.return_chosen_song("Lifestyles of the Rich & Famous")
-
-# we make the weighted edges based on what the user picked, including priority list
-g.add_all_weighted_edges(chosen_song=song1, prioritylist={'speechiness': 9, 'valence': 8, 'popularity': 7, 'tempo': 6, 'acousticness': 5, 'danceability': 4, 'genre': 3, 'instrumentalness': 2, 'year released': 1}, explicit=False)
-
-# print all the weights, we have to sort these and then print like the highest 10 or something idk popularity
-g.print_weights(song1)
