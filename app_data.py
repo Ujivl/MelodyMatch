@@ -162,7 +162,7 @@ class WeightedGraph:
             #  Uses intersection over union to get similarity value for all the genres
             numerator = len(chosen_song.similarity_factors[factor].intersection(other_song.similarity_factors[factor]))
             denominator = len(chosen_song.similarity_factors[factor].union(other_song.similarity_factors[factor]))
-            return numerator / denominator
+            return (numerator / denominator) * 10000
         elif abs(chosen_song.similarity_factors[factor] - other_song.similarity_factors[factor]) != 0:
             return 1/(abs(chosen_song.similarity_factors[factor] - other_song.similarity_factors[factor]))
         else:
@@ -209,7 +209,7 @@ def create_graph_without_edges(file: str) -> WeightedGraph:
 g = create_graph_without_edges("songs_test_small.csv")
 
 # Pretend that this is the song that the user picked
-song1 = g.return_chosen_song("Oops!...I Did It Again")
+song1 = g.return_chosen_song("Lifestyles of the Rich & Famous")
 
 # we make the weighted edges based on what the user picked, including priority list
 g.add_all_weighted_edges(chosen_song=song1, prioritylist={'genre': 9, 'danceability': 8, 'year released': 7, 'valence': 6, 'popularity': 5, 'speechiness': 4, 'tempo': 3, 'acousticness': 2, 'instrumentalness': 1}, explicit=False)
