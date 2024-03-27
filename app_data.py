@@ -212,7 +212,7 @@ g = create_graph_without_edges("songs_test_small.csv")
 song1 = g.return_chosen_song("Lifestyles of the Rich & Famous")
 
 # we make the weighted edges based on what the user picked, including priority list
-g.add_all_weighted_edges(chosen_song=song1, prioritylist={'genre': 9, 'danceability': 8, 'year released': 7, 'valence': 6, 'popularity': 5, 'speechiness': 4, 'tempo': 3, 'acousticness': 2, 'instrumentalness': 1}, explicit=False)
+g.add_all_weighted_edges(chosen_song=song1, prioritylist={'speechiness': 9, 'valence': 8, 'popularity': 7, 'tempo': 6, 'acousticness': 5, 'danceability': 4, 'genre': 3, 'instrumentalness': 2, 'year released': 1}, explicit=False)
 
 # print all the weights, we have to sort these and then print like the highest 10 or something idk popularity
 g.print_weights(song1)

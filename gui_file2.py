@@ -106,7 +106,6 @@ def main():
     root = tk.Tk()
     PrioritizeApp(root)
     root.title("MelodyMatcher")
-    root.geometry("600x800")
     root.geometry("400x500")
     root.mainloop()
 
