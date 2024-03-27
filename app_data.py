@@ -187,19 +187,21 @@ class WeightedGraph:
             if chosen_song.song_name == other_songs.song_name:
                 continue
             else:
-                print(f"{other_songs.song_name} similarity: {self._vertices[chosen_song].neighbours[self._vertices[other_songs]]}")
+                print(f"{other_songs.song_name} similarity with {chosen_song.song_name}: {self._vertices[chosen_song].neighbours[self._vertices[other_songs]]}")
 
 
-def create_graph_without_edges(file: str) -> WeightedGraph:
+def create_graph_without_edges_and_list(file: str) -> tuple[WeightedGraph, li[str]]:
     """
     Returns a weighted graph without any edge connections yet.
     """
     g = WeightedGraph()
+    li = []
     with open(file, 'r') as song_file:
         line_reader = csv.reader(song_file)
         song_file.readline()
         for row in line_reader:
+            li.append(row[1])
             song = Song(row[0], row[1], (row[3] == "True"), int(row[4]), int(row[5]), float(row[6]), float(row[11]),
                         float(row[12]), float(row[13]), float(row[14]), float(row[15]), set("".split(row[16])))
             g.add_vertex(song)
-    return g
+    return (g, li)

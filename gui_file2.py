@@ -2,11 +2,12 @@
 file implementing the gui of the application
 """
 import tkinter as tk
-from typing import Union
+from typing import Union, Any
 import app_data as ad
 
+g, song_name_list = ad.create_graph_without_edges_and_list("songs_test_small.csv")
+
 class DragDropListbox(tk.Listbox):
-    """A Listbox with drag-and-drop reordering of items"""
     """
     This class creates a listbox which contains items that can be moved through drag and drop. It is a child class
     that inherits the Listbox widget built into the tkinter module. The list box module creates a box with ordered
@@ -64,8 +65,6 @@ class PrioritizeApp:
     def __init__(self, root):
         self.root = root
 
-        # Initial list of items
-        self.items = [f"Item {i}" for i in range(1, 11)]
         self.items = [
             "year released",
             "popularity",
@@ -86,10 +85,6 @@ class PrioritizeApp:
 
         self.attributes_with_weights = {}
 
-        # Button to save prioritization
-        self.save_button = tk.Button(root, text="Save Prioritization", command=self.save_prioritization)
-        self.save_button.pack(pady=50)
-
     def save_prioritization(self):
         """
         Saves the prioritized items and prints them out for now, this will chance later.
@@ -101,25 +96,55 @@ class PrioritizeApp:
             weight -= 1
         print("Prioritized Items with weights: " + str(self.attributes_with_weights))
 
+class DropdownApp:
+
+    selected_song: Any = "Oops!...I Did It Again"
+
+    def __init__(self, root):
+        self.root = root
+
+        self.label = tk.Label(root, text="Select a Song:")
+        self.label.pack()
+
+        self.options = song_name_list
+        self.value_inside = tk.StringVar(root)
+        self.value_inside.set(self.options[0])
+
+        self.dropdown_menu = tk.OptionMenu(root, self.value_inside, *self.options)
+        self.dropdown_menu.pack()
+
+    def on_select(self):
+        self.selected_song = self.value_inside.get()
+
+def save_all_information(priority_list: PrioritizeApp, drag_drop_object: DropdownApp, explicit: bool):
+    """
+    saves all the information and adds the weighted edges to the graph
+    """
+    drag_drop_object.on_select()
+    priority_list.save_prioritization()
+    user_selected_song = g.return_chosen_song(drag_drop_object.selected_song)
+    g.add_all_weighted_edges(chosen_song=user_selected_song,
+                             prioritylist=priority_list.attributes_with_weights,
+                             explicit=explicit)
+    g.print_weights(chosen_song=user_selected_song)
+
 
 def main():
     """
     The main function file, this is where the root and main window is called.
     """
     # Create the tkinter window and PrioritizeApp instance
-    g = ad.create_graph_without_edges("songs_test_small.csv")
     root = tk.Tk()
-    priority_app = PrioritizeApp(root)
+    drag_drop_object = DropdownApp(root)
+    priority_list = PrioritizeApp(root)
+    explicit = False
+
     root.title("MelodyMatcher")
     root.geometry("400x500")
 
-    if priority_app.attributes_with_weights != {}:
-        print("working")
-        user_selected_song = g.return_chosen_song("Lifestyles of the Rich & Famous")
-        g.add_all_weighted_edges(chosen_song=user_selected_song,
-                                 prioritylist=priority_app.attributes_with_weights,
-                                 explicit=False)
-        g.print_weights(chosen_song=user_selected_song)
+    save_button = tk.Button(root, text="Calculate similar songs",
+                            command=lambda: save_all_information(priority_list, drag_drop_object, explicit))
+    save_button.pack(pady=50)
 
     root.mainloop()
 
