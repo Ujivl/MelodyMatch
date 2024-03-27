@@ -162,11 +162,11 @@ class WeightedGraph:
             #  Uses intersection over union to get similarity value for all the genres
             numerator = len(chosen_song.similarity_factors[factor].intersection(other_song.similarity_factors[factor]))
             denominator = len(chosen_song.similarity_factors[factor].union(other_song.similarity_factors[factor]))
-            return (numerator / denominator) * 10000
+            return (numerator / denominator) * 10000.0
         elif abs(chosen_song.similarity_factors[factor] - other_song.similarity_factors[factor]) != 0:
             return 1/(abs(chosen_song.similarity_factors[factor] - other_song.similarity_factors[factor]))
         else:
-            return 1.0  # TODO: we need to change this to a value that gives it more importance.
+            return 10000.0
 
     def return_chosen_song(self, chosen_song_name: str) -> Optional[Song, str]:
         """
