@@ -56,8 +56,7 @@ class DragDropListbox(tk.Listbox):
 
 class PrioritizeApp:
     """
-    doing something right now i dont really knwo right now
-`
+    doing something right now i dont really know right now
     """
     def __init__(self, root):
         self.root = root
