@@ -7,6 +7,7 @@ import app_data as ad
 
 g, song_name_list = ad.create_graph_without_edges_and_list("songs_normalize.csv")
 
+
 class DragDropListbox(tk.Listbox):
     """
     This class creates a listbox which contains items that can be moved through drag and drop. It is a child class
@@ -97,8 +98,9 @@ class PrioritizeApp:
         print("Prioritized Items with weights: " + str(self.attributes_with_weights))
 
 class DropdownApp:
-
-    selected_song: Any
+    """
+    Creates a dropdown menu
+    """
 
     def __init__(self, root):
         self.root = root
