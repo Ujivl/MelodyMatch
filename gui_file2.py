@@ -5,7 +5,7 @@ import tkinter as tk
 from typing import Union, Any
 import app_data as ad
 
-g, song_name_list = ad.create_graph_without_edges_and_list("songs_normalize.csv")
+g, song_name_list = ad.create_graph_without_edges_and_list("songs_test_small.csv")
 
 
 class DragDropListbox(tk.Listbox):
@@ -119,6 +119,7 @@ class DropdownApp:
 
     def on_select(self):
         self.selected_song = self.value_inside.get()
+
 
 def save_all_information(priority_list: PrioritizeApp, drag_drop_object: DropdownApp, explicit: bool):
     """
