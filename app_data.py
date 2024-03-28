@@ -185,6 +185,7 @@ class WeightedGraph:
         the app.
         """
         sorted_dict = dict(sorted(self._vertices[self.chosen_song].neighbours.items(), key=lambda item: item[1], reverse=True)[:num_of_songs])
+        print(f"10 songs that are similar to {self.chosen_song.song_name}: ")
         for i in sorted_dict:
             print(i.item.song_name)
 

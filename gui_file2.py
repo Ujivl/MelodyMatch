@@ -97,12 +97,10 @@ class PrioritizeApp:
             weight -= 1
         print("Prioritized Items with weights: " + str(self.attributes_with_weights))
 
-
 class DropdownApp:
     """
     Creates a dropdown menu
     """
-    selected_song: Any = "Oops!...I Did It Again"
 
     def __init__(self, root):
         self.root = root
@@ -112,14 +110,15 @@ class DropdownApp:
 
         self.options = song_name_list
         self.value_inside = tk.StringVar(root)
-        self.value_inside.set(self.options[0])
+        self.value_inside.set("---ANY---")
 
         self.dropdown_menu = tk.OptionMenu(root, self.value_inside, *self.options)
         self.dropdown_menu.pack()
 
     def on_select(self):
         self.selected_song = self.value_inside.get()
-
+        if self.selected_song == '---ANY---':
+            raise ValueError
 
 def save_all_information(priority_list: PrioritizeApp, drag_drop_object: DropdownApp, explicit: bool):
     """
