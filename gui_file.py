@@ -52,7 +52,7 @@ class DragDropListbox(tk.Listbox):
             self.curIndex = i
 
 
-class PrioritizeApp:
+class PrioritizeApp_1:
     """
 `
     """
@@ -100,20 +100,6 @@ class PrioritizeApp:
         else:
             print("please answer all questions")
 
-    def open_new_window(self):
-        """
-        Create new window...
-        """
-        self.root.destroy()
-
-        new_root = tk.Tk()
-        new_root.title("New Window")
-        new_root.geometry("400x500")
-
-        tk.Label(new_root, text="This is a new window.").pack()
-
-        new_root.mainloop()
-
     def save_prioritization(self):
         """
             Saves the prioritized items and prints them out for now, this will chance later.
@@ -132,7 +118,7 @@ def verify(all_answers) -> bool:
     Verify every input so it is correct...
 
     """
-    verify_list = [bool] #NOT SURE?
+    verify_list = [] #NOT SURE?
     verify_list.append((all_answers["year released"].isdigit()
                         and 2010 <= int(all_answers["year released"]) <= 2020))
 
@@ -147,7 +133,7 @@ def main():
     """
     # Create the tkinter window and PrioritizeApp instance
     root = tk.Tk()
-    PrioritizeApp(root)
+    PrioritizeApp_1(root)
     root.title("MelodyMatcher")
     root.geometry("400x700")
     root.mainloop()
