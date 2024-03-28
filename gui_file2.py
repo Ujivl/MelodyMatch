@@ -5,7 +5,7 @@ import tkinter as tk
 from typing import Union, Any
 import app_data as ad
 
-g, song_name_list = ad.create_graph_without_edges_and_list("songs_test_small.csv")
+g, song_name_list = ad.create_graph_without_edges_and_list("songs_normalize.csv")
 
 class DragDropListbox(tk.Listbox):
     """
