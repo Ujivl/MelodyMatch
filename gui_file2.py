@@ -70,6 +70,10 @@ class PrioritizeApp:
             "year released",
             "popularity",
             "danceability",
+            "energy",
+            "key",
+            "loudness",
+            "mode",
             "speechiness",
             "acousticness",
             "instrumentalness",
@@ -90,7 +94,7 @@ class PrioritizeApp:
         """
         Saves the prioritized items and prints them out for now, this will chance later.
         """
-        weight = 9
+        weight = 13
         prioritized_attributes = self.listbox.get(0, tk.END)
         for attribute in prioritized_attributes:
             self.attributes_with_weights[attribute] = weight
@@ -108,7 +112,7 @@ class DropdownApp:
     def __init__(self, root):
         self.root = root
 
-        self.label = tk.Label(root, text="Select a Song:")
+        self.label = tk.Label(root, text="Select a Song:", font=('Times New Roman', 18))
         self.label.pack()
 
         self.options = song_name_list
@@ -116,6 +120,10 @@ class DropdownApp:
         self.value_inside.set(self.options[0])
         self.dropdown_menu = tk.OptionMenu(root, self.value_inside, *self.options)
         self.dropdown_menu.pack()
+
+        self.selection = tk.Label(root, text="Please rank how you value these musical characteristics:",
+                                  font=('Times New Roman', 18))
+        self.selection.pack(pady=10)
 
 
     def on_select(self):
@@ -146,7 +154,7 @@ def main():
     checkbox = tk.Checkbutton(root, text="Explicit", variable=checkbox_var)
     checkbox.pack(pady=10)
     root.title("MelodyMatcher")
-    root.geometry("400x500")
+    root.geometry("450x500")
 
     save_button = tk.Button(root, text="Calculate similar songs",
                             command=lambda: save_all_information(priority_list, drag_drop_object, checkbox_var.get()))

@@ -20,11 +20,11 @@ class Song:
         - year: the year the song was released (int)
         - popularity: the popularity of the song, the higher it is the more popular (int)
         - danceability: a float value that determines the level of danceability (float)
-        - energy: measures intensity and activity, it's a value from 0 to 1 (float) <--- TODO: don't really need it
+        - energy: measures intensity and activity, it's a value from 0 to 1 (float)
         - key: Integers map to pitches using standard Pitch Class notation. E.g. 0 = C, 1 = C♯/D♭, 2 = D, and so on.
-            If no key was detected, the value is -1. (int) <----  TODO: don't really need it
-        - loudness: Decibal units of the song, goes from -60 to 0 (float) <----  TODO: don't really need it
-        - mode: if the track is in major or minor, (1 is major, 0 is minor) (int) <----  TODO: don't really need it
+            If no key was detected, the value is -1. (int)
+        - loudness: Decibal units of the song, goes from -60 to 0 (float)
+        - mode: if the track is in major or minor, (1 is major, 0 is minor) (int)
         - speechiness: Presence of spoken words in the song (goes from 0 to 1) (float)
         - acousticness: accousticness of the song, 1.0 means high confidence that the song is acoustic (float)
         - instrumentalness: instrument usage in song, goes from 0.0 to 1.0 (float)
@@ -41,6 +41,10 @@ class Song:
     year: int
     popularity: int
     danceability: float
+    energy: float
+    key: int
+    loudness: float
+    mode: int
     speechiness: float
     acousticness: float
     instrumentalness: float
@@ -50,8 +54,8 @@ class Song:
     similarity_factors: dict
 
     def __init__(self, artist: str, song_name: str, explicit: bool, year: int, popularity: int, danceability: float,
-                 speechiness: float, acousticness: float, instrumentalness: float, valence: float, tempo: float,
-                 genre: set[str]) -> None:
+                 energy: float, key: int, loudness: float, mode: int, speechiness: float, acousticness: float,
+                 instrumentalness: float, valence: float, tempo: float, genre: set[str]) -> None:
         """
         Initializes a new song object with the attributes in the csv file
         """
@@ -63,6 +67,10 @@ class Song:
             "year released": year,
             "popularity": popularity,
             "danceability": danceability,
+            "energy": energy,
+            "key": key,
+            "loudness": loudness,
+            "mode": mode,
             "speechiness": speechiness,
             "acousticness": acousticness,
             "instrumentalness": instrumentalness,
@@ -201,7 +209,8 @@ def create_graph_without_edges_and_list(file: str) -> tuple[WeightedGraph, list[
         song_file.readline()
         for row in line_reader:
             li.append(row[1])
-            song = Song(row[0], row[1], (row[3] == "True"), int(row[4]), int(row[5]), float(row[6]), float(row[11]),
-                        float(row[12]), float(row[13]), float(row[14]), float(row[15]), set("".split(row[16])))
+            song = Song(row[0], row[1], (row[3] == "True"), int(row[4]), int(row[5]), float(row[6]), float(row[7]),
+                        int(row[8]), float(row[9]), int(row[10]), float(row[11]), float(row[12]), float(row[13]),
+                        float(row[14]), float(row[15]), set("".split(row[16])))
             g.add_vertex(song)
     return (g, li)
