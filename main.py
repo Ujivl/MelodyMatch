@@ -70,7 +70,7 @@ class HomeScreen:
         root.geometry("400x500")
 
         save_button = tk.Button(root, text="Calculate similar songs",
-                                command=lambda: save_all_information(priority_list, drag_drop_object, explicit))
+                                command=lambda: save_all_information(root, priority_list, drag_drop_object, explicit))
         save_button.pack(pady=50)
 
         root.mainloop()

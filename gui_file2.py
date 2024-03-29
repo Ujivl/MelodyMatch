@@ -4,6 +4,7 @@ file implementing the gui of the application
 import tkinter as tk
 from typing import Union
 import app_data as ad
+from final_window import FinalWindow
 
 g, song_name_list = ad.create_graph_without_edges_and_list("songs_test_small.csv")
 
@@ -125,11 +126,11 @@ class DropdownApp:
                                   font=('Times New Roman', 18))
         self.selection.pack(pady=10)
 
-
     def on_select(self):
         self.selected_song = self.value_inside.get()
 
-def save_all_information(priority_list: PrioritizeApp, drag_drop_object: DropdownApp, explicit: bool):
+
+def save_all_information(root, priority_list: PrioritizeApp, drag_drop_object: DropdownApp, explicit: bool):
     """
     saves all the information and adds the weighted edges to the graph
     """
@@ -139,7 +140,13 @@ def save_all_information(priority_list: PrioritizeApp, drag_drop_object: Dropdow
     g.add_all_weighted_edges(chosen_song=user_selected_song,
                              prioritylist=priority_list.attributes_with_weights,
                              explicit=explicit)
-    g.sort_weights(10)
+
+    root.destroy()
+    new_root = tk.Tk()
+    FinalWindow(new_root, g.sort_weights(10))
+    new_root.title("FinalWindow")
+    new_root.geometry("400x700")
+    new_root.mainloop()
 
 
 def main():
@@ -157,7 +164,7 @@ def main():
     root.geometry("450x500")
 
     save_button = tk.Button(root, text="Calculate similar songs",
-                            command=lambda: save_all_information(priority_list, drag_drop_object, checkbox_var.get()))
+                            command=lambda: save_all_information(root, priority_list, drag_drop_object, checkbox_var.get()))
     save_button.pack(pady=50)
 
     root.mainloop()

@@ -3,6 +3,8 @@ file implementing the gui of the application
 """
 import tkinter as tk
 from typing import Union
+from tkinter import Scale
+
 
 
 class DragDropListbox(tk.Listbox):
@@ -78,7 +80,7 @@ class PrioritizeApp_1:
         for item in self.items:
             self.question_label = tk.Label(root, text=item)
             self.question_label.pack(padx=10, pady=5)
-
+            #
             answer_entry = tk.Entry(root, width=50)
             answer_entry.pack(padx=10, pady=5)
 
