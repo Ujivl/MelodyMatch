@@ -93,7 +93,7 @@ class DragDropListbox(tk.Listbox):
         print("Prioritized Items with weights: " + str(self.attributes_with_weights))
 
 
-class DropdownApp:
+class DropdownBox:
     """
     Creates a dropdown menu
     """
@@ -143,7 +143,7 @@ def main():
     root.title("MelodyMatcher")
     root.geometry("600x600")
 
-    song_selection_object = DropdownApp(root)
+    song_selection_object = DropdownBox(root)
     priority_list_object = DragDropListbox(root, "gray")
 
     checkbox_var = tk.BooleanVar()
