@@ -29,6 +29,31 @@ class DragDropListbox(tk.Listbox):
         super().__init__(root, bg=background)
         self.bind('<Button-1>', self.set_current)
         self.bind('<B1-Motion>', self.shift_selection)
+
+        self.items = [
+            "year released",
+            "popularity",
+            "danceability",
+            "energy",
+            "key",
+            "loudness",
+            "mode",
+            "speechiness",
+            "acousticness",
+            "instrumentalness",
+            "valence",
+            "tempo",
+            "genre"
+        ]
+
+        self.selection = tk.Label(root, text="Please rank how you value these musical characteristics:",
+                                  font=('Times New Roman', 18))
+        self.selection.pack(pady=10)
+
+        for item in self.items:
+            self.insert(tk.END, item)
+        self.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+        self.attributes_with_weights = {}
         self.curIndex = None
 
     def set_current(self, event):
@@ -56,47 +81,12 @@ class DragDropListbox(tk.Listbox):
             self.insert(i - 1, x)
             self.curIndex = i
 
-
-class PrioritizeApp:
-    """
-    doing something right now i dont really know right now
-    """
-
-    attributes_with_weights: dict[str, int]
-
-    def __init__(self, root):
-        self.root = root
-
-        self.items = [
-            "year released",
-            "popularity",
-            "danceability",
-            "energy",
-            "key",
-            "loudness",
-            "mode",
-            "speechiness",
-            "acousticness",
-            "instrumentalness",
-            "valence",
-            "tempo",
-            "genre"
-        ]
-
-        # Create a DragDropListbox and fill it with items
-        self.listbox = DragDropListbox(root, "gray")
-        for item in self.items:
-            self.listbox.insert(tk.END, item)
-        self.listbox.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
-
-        self.attributes_with_weights = {}
-
     def save_prioritization(self):
         """
         Saves the prioritized items and prints them out for now, this will chance later.
         """
         weight = 1
-        prioritized_attributes = self.listbox.get(0, tk.END)
+        prioritized_attributes = self.get(0, tk.END)
         for attribute_imdex in range(len(prioritized_attributes) - 1, -1, -1):
             self.attributes_with_weights[prioritized_attributes[attribute_imdex]] = (10 ** weight)
             weight += 1
@@ -122,23 +112,22 @@ class DropdownApp:
         self.dropdown_menu = tk.OptionMenu(root, self.value_inside, *self.options)
         self.dropdown_menu.pack()
 
-        self.selection = tk.Label(root, text="Please rank how you value these musical characteristics:",
-                                  font=('Times New Roman', 18))
-        self.selection.pack(pady=10)
-
     def on_select(self):
+        """
+        Gets the chosen song.
+        """
         self.selected_song = self.value_inside.get()
 
 
-def save_all_information(root, priority_list: PrioritizeApp, drag_drop_object: DropdownApp, explicit: bool):
+def save_all_information(root, priority_list_object: DragDropListbox, drag_drop_object: DropdownApp, explicit: bool):
     """
     saves all the information and adds the weighted edges to the graph
     """
     drag_drop_object.on_select()
-    priority_list.save_prioritization()
+    priority_list_object.save_prioritization()
     user_selected_song = g.return_and_save_chosen_song(drag_drop_object.selected_song)
     g.add_all_weighted_edges(chosen_song=user_selected_song,
-                             prioritylist=priority_list.attributes_with_weights,
+                             prioritylist=priority_list_object.attributes_with_weights,
                              explicit=explicit)
     final_selected_songs = g.sort_weights(10)
     root.destroy()
@@ -151,21 +140,22 @@ def main():
     """
     # Create the tkinter window and PrioritizeApp instance
     root = tk.Tk()
-    drag_drop_object = DropdownApp(root)
-    priority_list = PrioritizeApp(root)
+    root.title("MelodyMatcher")
+    root.geometry("600x600")
+
+    song_selection_object = DropdownApp(root)
+    priority_list_object = DragDropListbox(root, "gray")
+
     checkbox_var = tk.BooleanVar()
     checkbox = tk.Checkbutton(root, text="Explicit", variable=checkbox_var)
     checkbox.pack(pady=10)
-    root.title("MelodyMatcher")
-    root.geometry("450x500")
 
     save_button = tk.Button(root, text="Calculate similar songs",
                             command=lambda: save_all_information(root,
-                                                                 priority_list,
-                                                                 drag_drop_object,
+                                                                 priority_list_object,
+                                                                 song_selection_object,
                                                                  checkbox_var.get()))
     save_button.pack(pady=50)
-
     root.mainloop()
 
 

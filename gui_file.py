@@ -114,7 +114,6 @@ def get_max_min(item: str) -> (float, float, float):
         return 60, 211, 1
 
 
-
 def main():
     """
     The main function file, this is where the root and main window is called.
