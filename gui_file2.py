@@ -95,11 +95,11 @@ class PrioritizeApp:
         """
         Saves the prioritized items and prints them out for now, this will chance later.
         """
-        weight = 13
+        weight = 1
         prioritized_attributes = self.listbox.get(0, tk.END)
-        for attribute in prioritized_attributes:
-            self.attributes_with_weights[attribute] = weight
-            weight -= 1
+        for attribute_imdex in range(len(prioritized_attributes) - 1, -1, -1):
+            self.attributes_with_weights[prioritized_attributes[attribute_imdex]] = (10 ** weight)
+            weight += 1
         print("Prioritized Items with weights: " + str(self.attributes_with_weights))
 
 
@@ -144,10 +144,10 @@ def save_all_information(root, priority_list: PrioritizeApp, drag_drop_object: D
     g.add_all_weighted_edges(chosen_song=user_selected_song,
                              prioritylist=priority_list.attributes_with_weights,
                              explicit=explicit)
-
+    final_selected_songs = g.sort_weights(10)
     root.destroy()
     new_root = tk.Tk()
-    FinalWindow(new_root, g.sort_weights(10))
+    FinalWindow(new_root, final_selected_songs)
     new_root.title("FinalWindow")
     new_root.geometry("400x700")
     new_root.mainloop()

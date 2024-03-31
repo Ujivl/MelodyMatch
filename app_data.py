@@ -157,11 +157,11 @@ class WeightedGraph:
             #  Uses intersection over union to get similarity value for all the genres
             numerator = len(chosen_song.similarity_factors[factor].intersection(other_song.similarity_factors[factor]))
             denominator = len(chosen_song.similarity_factors[factor].union(other_song.similarity_factors[factor]))
-            return (numerator / denominator) * 10000.0
+            return (numerator / denominator) * 1000000
         elif abs(chosen_song.similarity_factors[factor] - other_song.similarity_factors[factor]) != 0:
             return 1/(abs(chosen_song.similarity_factors[factor] - other_song.similarity_factors[factor]))
         else:
-            return 10000.0
+            return 1000000
 
     def return_and_save_chosen_song(self, chosen_song_name: str) -> Optional[Song, str]:
         """
@@ -199,7 +199,7 @@ def create_graph_without_edges(file: str) -> tuple[WeightedGraph, list[str], set
             genre_name_set.add(row[17])
             song = Song(row[0], row[1], (row[3] == "True"), int(row[4]), int(row[5]), float(row[6]), float(row[7]),
                         int(row[8]), float(row[9]), int(row[10]), float(row[11]), float(row[12]), float(row[13]),
-                        float(row[14]), float(row[15]), set("".split(row[16])))
+                        float(row[14]), float(row[15]), set("".split(row[17])))
             g.add_vertex(song)
     return g, li, genre_name_set
 
