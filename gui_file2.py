@@ -119,7 +119,7 @@ class DropdownBox:
         self.selected_song = self.value_inside.get()
 
 
-def save_all_information(root, priority_list_object: DragDropListbox, drag_drop_object: DropdownApp, explicit: bool):
+def save_all_information(root, priority_list_object: DragDropListbox, drag_drop_object: DropdownBox, explicit: bool):
     """
     saves all the information and adds the weighted edges to the graph
     """
