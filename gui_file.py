@@ -9,7 +9,7 @@ import app_data as ad
 from final_window import FinalWindow
 
 g, song_name_list, genre_name_set = ad.create_graph_without_edges_and_list("songs_test_small.csv")
-print(song_name_list)
+# print(song_name_list)
 
 class PrioritizeApp_1:
     """
@@ -25,12 +25,15 @@ class PrioritizeApp_1:
             "year released",
             "popularity",
             "danceability",
+            "energy",
+            "key",
+            "loudness",
+            "mode",
             "speechiness",
             "acousticness",
             "instrumentalness",
             "valence",
-            "tempo",
-            "explicit"
+            "tempo"
         ]
 
         self.entries = {}
@@ -38,7 +41,7 @@ class PrioritizeApp_1:
         for item in self.items:
             if item == 'genre':
                 self.question_label = tk.Label(root, text=item)
-                self.question_label.pack(padx=10, pady=4)
+                self.question_label.pack()
                 self.options = sorted(genre_name_set)
                 self.value_inside = tk.StringVar(root)
                 self.value_inside.set(self.options[0])  # Set the default value
@@ -49,14 +52,14 @@ class PrioritizeApp_1:
             elif item == 'explicit':
                 checkbox_var = tk.BooleanVar()
                 self.check = tk.Checkbutton(root, text="Explicit", variable=checkbox_var)
-                self.check.pack(pady=10)
+                self.check.pack()
 
             else:
                 self.question_label = tk.Label(root, text=item)
-                self.question_label.pack(padx=10, pady=4)
-                minimum, maximum = get_max_min(item)
-                slider = Scale(root, from_=minimum, to=maximum, orient='horizontal')
-                slider.pack(padx=10, pady=4)
+                self.question_label.pack()
+                minimum, maximum, index = get_max_min(item)
+                slider = Scale(root, from_=minimum, to=maximum, resolution=index, orient='horizontal')
+                slider.pack(pady=5)
                 self.entries[item] = slider
 
         self.submit_button = tk.Button(root, text="Submit", command=self.submit_answer)
@@ -74,19 +77,34 @@ class PrioritizeApp_1:
         new_root = tk.Tk()
         FinalWindow(new_root, g.sort_weights(10))
         new_root.title("FinalWindow")
-        new_root.geometry("400x800")
+        new_root.geometry("400x300")
         new_root.mainloop()
 
 
-def get_max_min(item: str) -> (float, float):
+def get_max_min(item: str) -> (float, float, float):
     """
     Need to incoroprate for each properly
     """
     if item == 'year released':
-        return 1990, 2020
+        return 1990, 2020, 1
+    elif item == 'popularity':
+        return 0, 100, 1
+    elif (item == 'danceability' or item == 'energy' or item == 'acousticness' or item == 'instrumentalness' \
+          or item == 'valence'):
+        return 0, 1, 0.01
+    elif item == 'key':
+        return 0, 11, 1
+    elif item == 'loudness':
+        return -20.5, -0.28, 0.01
+    elif item == 'mode':
+        return 0, 1, 1
+    elif item == 'speechiness':
+        return 0.02, 0.58, 0.01
+    elif item == 'liveness':
+        return 0.02, 0.85, 0.01
+    elif item == 'tempo':
+        return 60, 211, 1
 
-    else:
-        return 0, 100
 
 
 def main():
@@ -97,7 +115,7 @@ def main():
     root = tk.Tk()
     PrioritizeApp_1(root)
     root.title("MelodyMatcher")
-    root.geometry("400x800")
+    root.geometry("400x1200")
     root.mainloop()
 
 

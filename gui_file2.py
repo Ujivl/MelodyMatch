@@ -145,7 +145,7 @@ def save_all_information(root, priority_list: PrioritizeApp, drag_drop_object: D
     new_root = tk.Tk()
     FinalWindow(new_root, g.sort_weights(10))
     new_root.title("FinalWindow")
-    new_root.geometry("400x700")
+    new_root.geometry("400x300")
     new_root.mainloop()
 
 
@@ -161,7 +161,7 @@ def main():
     checkbox = tk.Checkbutton(root, text="Explicit", variable=checkbox_var)
     checkbox.pack(pady=10)
     root.title("MelodyMatcher")
-    root.geometry("450x500")
+    root.geometry("450x700")
 
     save_button = tk.Button(root, text="Calculate similar songs",
                             command=lambda: save_all_information(root, priority_list, drag_drop_object, checkbox_var.get()))
