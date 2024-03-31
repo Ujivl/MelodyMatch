@@ -3,7 +3,7 @@ Song class file
 """
 from __future__ import annotations
 import csv
-from typing import Any, Optional, Tuple, List, Set
+from typing import Any, Optional
 
 
 class Song:
@@ -189,14 +189,12 @@ class WeightedGraph:
 
     def sort_weights(self, num_of_songs: int):
         """
-        Prints the weights of the song, this is just a test function wer prolly gonna get rid of it after finishing
-        the app.
+        This function sorts the neighbors of the chosen song by weight and returns the first 10. It uses a lambda
+        function to sort the list of weights in descending order, so that it can just slice it into the first 10
+        elements, and return it back into dictionary format.
         """
-        sorted_dict = dict(sorted(self._vertices[self.chosen_song].neighbours.items(), key=lambda item: item[1], reverse=True)[:num_of_songs])
-        #print(f"10 songs that are similar to {self.chosen_song.song_name}: ")
-        #for i in sorted_dict:
-            #print(i.item.song_name)
-
+        sorted_dict = dict(sorted(self._vertices[self.chosen_song].neighbours.items(), key=lambda item: item[1],
+                                  reverse=True)[:num_of_songs])
         return sorted_dict
 
 
