@@ -201,7 +201,6 @@ def create_graph_without_edges(file: str) -> tuple[WeightedGraph, list[str], set
             song = Song(row[0], row[1], (row[3] == "True"), int(row[4]), int(row[5]), float(row[6]), float(row[7]),
                         int(row[8]), float(row[9]), int(row[10]), float(row[11]), float(row[12]), float(row[13]),
                         float(row[14]), float(row[15]), set(row[17].split(", ")))
-            print(set(row[17].split(", ")))
             g.add_vertex(song)
     return g, li, genre_name_set
 
