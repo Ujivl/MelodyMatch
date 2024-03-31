@@ -1,9 +1,6 @@
 import tkinter as tk
-from typing import Union
-from tkinter import Button
-
-from gui_file import *
-from gui_file2 import *
+import gui_file
+import gui_file2
 
 
 class HomeScreen:
@@ -38,9 +35,11 @@ class HomeScreen:
         self.buttonframe.columnconfigure(0, weight=1)
         self.buttonframe.columnconfigure(1, weight=1)
 
-        self.button = Button(self.buttonframe, text="Manual", font=("Times New Roman", 18), command=self.open_project_one)
+        self.button = tk.Button(self.buttonframe, text="Manual", font=("Times New Roman", 18),
+                                command=self.open_project_one)
         self.button.grid(row=0, column=0, sticky=tk.W + tk.E)
-        self.button2 = Button(self.buttonframe, text="Automatic", font=("Times New Roman", 18), command=self.open_project_two)
+        self.button2 = tk.Button(self.buttonframe, text="Automatic", font=("Times New Roman", 18),
+                                 command=self.open_project_two)
         self.button2.grid(row=0, column=1, sticky=tk.W + tk.E)
 
         self.buttonframe.pack(fill='x')
@@ -50,30 +49,14 @@ class HomeScreen:
         Destroy home window, and call upon Gui_1
         """
         self.root.destroy()
-        root = tk.Tk()
-        PrioritizeApp_1(root)
-        root.title("Idea1")
-        root.geometry("400x800")
-        root.mainloop()
+        gui_file.main()
 
     def open_project_two(self):
         """
        Destroy home window, and call upon Gui_2
        """
         self.root.destroy()
-        root = tk.Tk()
-        drag_drop_object = DropdownApp(root)
-        priority_list = PrioritizeApp(root)
-        explicit = False
-
-        root.title("MelodyMatcher")
-        root.geometry("400x500")
-
-        save_button = tk.Button(root, text="Calculate similar songs",
-                                command=lambda: save_all_information(root, priority_list, drag_drop_object, explicit))
-        save_button.pack(pady=50)
-
-        root.mainloop()
+        gui_file2.main()
 
 
 def main():
