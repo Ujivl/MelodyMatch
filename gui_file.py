@@ -8,7 +8,7 @@ from tkinter import Scale
 import app_data as ad
 from final_window import FinalWindow
 
-g, song_name_list, genre_name_set = ad.create_graph_without_edges_and_list("songs_test_small.csv")
+g, song_name_list, genre_name_set = ad.create_graph_without_edges("songs_test_small.csv")
 # print(song_name_list)
 
 class PrioritizeApp_1:

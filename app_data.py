@@ -38,19 +38,6 @@ class Song:
     artist: str
     song_name: str
     explicit: bool
-    year: int
-    popularity: int
-    danceability: float
-    energy: float
-    key: int
-    loudness: float
-    mode: int
-    speechiness: float
-    acousticness: float
-    instrumentalness: float
-    valence: float
-    tempo: float
-    genre: set[str]
     similarity_factors: dict
 
     def __init__(self, artist: str, song_name: str, explicit: bool, year: int, popularity: int, danceability: float,

@@ -6,7 +6,7 @@ from typing import Union
 import app_data as ad
 from final_window import FinalWindow
 
-g, song_name_list, genre = ad.create_graph_without_edges_and_list("songs_test_small.csv")
+g, song_name_list, genre = ad.create_graph_without_edges("songs_test_small.csv")
 
 
 class DragDropListbox(tk.Listbox):
@@ -128,14 +128,11 @@ class DropdownApp:
 
     def on_select(self):
         self.selected_song = self.value_inside.get()
-<<<<<<< Updated upstream
 
-=======
         if self.selected_song == '---ANY---':
             l = tk.Label(self.root, text="Please select a song")
             l.pack()
             raise ValueError
->>>>>>> Stashed changes
 
 def save_all_information(root, priority_list: PrioritizeApp, drag_drop_object: DropdownApp, explicit: bool):
     """
