@@ -17,7 +17,7 @@ class FinalListBox(tk.Listbox):
         """
         Initializes a dragdroplistbox object that lets the user drag around the items in the listbox
         """
-        super().__init__(root, bg=background)
+        super().__init__(root, bg=background, width=50)
         self.songs = songs
         self.bind('<Button-1>', self.display_info)
         self.output_text = output_text
@@ -33,30 +33,28 @@ class FinalListBox(tk.Listbox):
         chosen_song = self.songs[i]
         self.output_text.config(state="normal")
         self.output_text.delete(1.0, tk.END)
-        self.output_text.insert(tk.END, f"Artist: {chosen_song.artist}")
-        self.output_text.insert(tk.END, f"\nyear released: {chosen_song.similarity_factors["year released"]}")
+        song_info = f"Song Name: {chosen_song.song_name}\nArtist: {chosen_song.artist}"
+        for i in chosen_song.similarity_factors:
+            song_info += f"\n{i}: {chosen_song.similarity_factors[i]}"
+        self.output_text.insert(tk.END, song_info)
         self.output_text.config(state="disabled")
         self.output_text.pack(pady=10)
 
 
-def final_window(top_songs):
+def final_window(top_songs: list[ad.Song], selected_song: str):
     """
     blah
     """
     root = tk.Tk()
     root.title("Top 10 songs")
-    root.geometry("400x700")
+    root.geometry("600x600")
 
-    title_frame = tk.Frame(root)
-    title_frame.pack(side=tk.TOP, fill=tk.X)
-
-    title = tk.Label(title_frame, text="Songs", font=("Times New Roman", 50))
-    title.pack(side=tk.TOP, padx=10, pady=10)
-
+    label = tk.Label(root, text=f"10 songs that are similar to: {selected_song}", font=('Times New Roman', 18))
+    label.pack(pady=10)
     listbox_frame = tk.Frame(root)
     listbox_frame.pack(side=tk.TOP, pady=10)
 
-    textbox = tk.Text(root, width=40, height=5, wrap="word")
+    textbox = tk.Text(root, width=70, height=100, wrap="word")
     listbox = FinalListBox(root, background="gray", songs=top_songs, output_text=textbox)
     listbox.pack()
     root.mainloop()

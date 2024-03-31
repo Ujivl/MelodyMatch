@@ -131,7 +131,7 @@ def save_all_information(root, priority_list_object: DragDropListbox, drag_drop_
                              explicit=explicit)
     final_selected_songs = g.sort_weights(10)
     root.destroy()
-    final_window.final_window(final_selected_songs)
+    final_window.final_window(final_selected_songs, drag_drop_object.selected_song)
 
 
 def main():
