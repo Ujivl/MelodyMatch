@@ -8,6 +8,8 @@ from tkinter import Scale
 import app_data as ad
 from final_window import FinalWindow
 
+from app_data import Song
+
 g, song_name_list, genre_name_set = ad.create_graph_without_edges("songs_test_small.csv")
 # print(song_name_list)
 
@@ -33,7 +35,8 @@ class PrioritizeApp_1:
             "acousticness",
             "instrumentalness",
             "valence",
-            "tempo"
+            "tempo",
+            "explicit"
         ]
 
         self.entries = {}
@@ -50,34 +53,43 @@ class PrioritizeApp_1:
                 self.entries[item] = self.value_inside
 
             elif item == 'explicit':
-                checkbox_var = tk.BooleanVar()
-                self.check = tk.Checkbutton(root, text="Explicit", variable=checkbox_var)
+                self.checkbox_var = tk.BooleanVar()
+                self.check = tk.Checkbutton(root, text="Explicit", variable=self.checkbox_var)
                 self.check.pack()
+                self.entries[item] = self.checkbox_var
 
             else:
                 self.question_label = tk.Label(root, text=item)
                 self.question_label.pack()
                 minimum, maximum, index = get_max_min(item)
                 slider = Scale(root, from_=minimum, to=maximum, resolution=index, orient='horizontal')
-                slider.pack(pady=5)
+                slider.pack(pady=1)
                 self.entries[item] = slider
 
         self.submit_button = tk.Button(root, text="Submit", command=self.submit_answer)
-        self.submit_button.pack(pady=10)
+        self.submit_button.pack(pady=1)
 
     def submit_answer(self):
-        all_answers = {item: entry.get() for item, entry in self.entries.items()}
+        """artist: str, song_name: str, explicit: bool, year: int, popularity: int, danceability: float,
+        energy: float, key: int, loudness: float, mode: int, speechiness: float, acousticness: float,
+        instrumentalness: float, valence: float, tempo: float, genre: set[str]"""
 
-        # Create song object and cook...
-        temp_song = Song(...)
+        ans = [entry.get() for item, entry in self.entries.items()]
+
+        temp_song = Song('user', 'user song', ans[13], ans[1], ans[2], ans[3], ans[4], ans[5], ans[6],
+                         ans[7], ans[8], ans[9], ans[10], ans[11], ans[12], set(ans[0].split(',')))
+
+        # WHAT TO SET PRIORITY SCORE?
+        priority = {factor: 1 for factor in temp_song.similarity_factors}
         g.add_vertex(temp_song)
-        g.add_all_weighted_edges(chosen_song=temp_song, prioritylist=..., explicit=...)
+        g.chosen_song = temp_song
+        g.add_all_weighted_edges(chosen_song=g.chosen_song, prioritylist=priority, explicit=temp_song.explicit)
 
         self.root.destroy()
         new_root = tk.Tk()
         FinalWindow(new_root, g.sort_weights(10))
         new_root.title("FinalWindow")
-        new_root.geometry("400x300")
+        new_root.geometry("400x700")
         new_root.mainloop()
 
 
