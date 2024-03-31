@@ -62,7 +62,6 @@ class Song:
         self.artist = artist
         self.song_name = song_name
         self.explicit = explicit
-        self.danceability = danceability
         self.similarity_factors = {
             "year released": year,
             "popularity": popularity,
@@ -94,7 +93,7 @@ class _WeightedVertex:
     item: Song
     neighbours: dict[_WeightedVertex, float]
 
-    def __init__(self, item: Song, neighbours: dict[_WeightedVertex, float]):
+    def __init__(self, item: Song, neighbours: dict[_WeightedVertex, float]) -> None:
         self.item = item
         self.neighbours = neighbours
 
@@ -187,18 +186,18 @@ class WeightedGraph:
                 return song
         return "song does not exist"
 
-    def sort_weights(self, num_of_songs: int):
+    def sort_weights(self, num_of_songs: int) -> dict[_WeightedVertex, float]:
         """
         This function sorts the neighbors of the chosen song by weight and returns the first 10. It uses a lambda
-        function to sort the list of weights in descending order, so that it can just slice it into the first 10
-        elements, and return it back into dictionary format.
+        function to sort the list of weights in descending order, so that it can just slice it into the first
+        [num_of_songs] elements, and return it back into dictionary format.
         """
         sorted_dict = dict(sorted(self._vertices[self.chosen_song].neighbours.items(), key=lambda item: item[1],
                                   reverse=True)[:num_of_songs])
         return sorted_dict
 
 
-def create_graph_without_edges_and_list(file: str) -> tuple[WeightedGraph, list[str], set[str]]:
+def create_graph_without_edges(file: str) -> tuple[WeightedGraph, list[str], set[str]]:
     """
     Returns a weighted graph without any edge connections yet.
     """
@@ -216,3 +215,17 @@ def create_graph_without_edges_and_list(file: str) -> tuple[WeightedGraph, list[
                         float(row[14]), float(row[15]), set("".split(row[16])))
             g.add_vertex(song)
     return g, li, genre_name_set
+
+
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod(verbose=True)
+
+    # When you are ready to check your work with python_ta, uncomment the following lines.
+    # (In PyCharm, select the lines below and press Ctrl/Cmd + / to toggle comments.)
+    # You can use "Run file in Python Console" to run both pytest and PythonTA,
+    # and then also test your methods manually in the console.
+    import python_ta
+    python_ta.check_all(config={
+        'max-line-length': 120
+    })

@@ -168,7 +168,7 @@ def main():
     checkbox = tk.Checkbutton(root, text="Explicit", variable=checkbox_var)
     checkbox.pack(pady=10)
     root.title("MelodyMatcher")
-    root.geometry("600x500")
+    root.geometry("450x500")
 
     save_button = tk.Button(root, text="Calculate similar songs",
                             command=lambda: save_all_information(root, priority_list, drag_drop_object, checkbox_var.get()))
