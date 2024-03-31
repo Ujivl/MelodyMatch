@@ -173,7 +173,7 @@ class WeightedGraph:
                 return song
         return "song does not exist"
 
-    def sort_weights(self, num_of_songs: int) -> dict[_WeightedVertex, float]:
+    def sort_weights(self, num_of_songs: int) -> list[Song]:
         """
         This function sorts the neighbors of the chosen song by weight and returns the first 10. It uses a lambda
         function to sort the list of weights in descending order, so that it can just slice it into the first
@@ -181,7 +181,8 @@ class WeightedGraph:
         """
         sorted_dict = dict(sorted(self._vertices[self.chosen_song].neighbours.items(), key=lambda item: item[1],
                                   reverse=True)[:num_of_songs])
-        return sorted_dict
+
+        return [x.item for x in sorted_dict]
 
 
 def create_graph_without_edges(file: str) -> tuple[WeightedGraph, list[str], set[str]]:

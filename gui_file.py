@@ -2,11 +2,10 @@
 file implementing the gui of the application
 """
 import tkinter as tk
-from typing import Union
 from tkinter import Scale
 
 import app_data as ad
-from final_window import FinalWindow
+import final_window
 
 from app_data import Song
 
@@ -85,12 +84,9 @@ class PrioritizeApp_1:
         g.chosen_song = temp_song
         g.add_all_weighted_edges(chosen_song=g.chosen_song, prioritylist=priority, explicit=temp_song.explicit)
 
+        chosen_songs = g.sort_weights(10)
         self.root.destroy()
-        new_root = tk.Tk()
-        FinalWindow(new_root, g.sort_weights(10))
-        new_root.title("FinalWindow")
-        new_root.geometry("400x700")
-        new_root.mainloop()
+        final_window.final_window(chosen_songs)
 
 
 def get_max_min(item: str) -> (float, float, float):

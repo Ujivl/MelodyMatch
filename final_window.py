@@ -1,6 +1,5 @@
 import tkinter as tk
 import app_data as ad
-from typing import Union
 
 
 class FinalListBox(tk.Listbox):
@@ -14,7 +13,7 @@ class FinalListBox(tk.Listbox):
 
     """
 
-    def __init__(self, root: tk.Tk, background: str, songs:  list[Union[ad.Song, None]], output_text: tk.Text):
+    def __init__(self, root: tk.Tk, background: str, songs:  list[ad.Song], output_text: tk.Text):
         """
         Initializes a dragdroplistbox object that lets the user drag around the items in the listbox
         """
@@ -22,6 +21,8 @@ class FinalListBox(tk.Listbox):
         self.songs = songs
         self.bind('<Button-1>', self.display_info)
         self.output_text = output_text
+        for song in self.songs:
+            self.insert(tk.END, song.song_name)
 
     def display_info(self, event):
         """
@@ -38,23 +39,24 @@ class FinalListBox(tk.Listbox):
         self.output_text.pack(pady=10)
 
 
-class FinalWindow:
-    def __init__(self, root, top_song):
-        self.root = root
-        self.title_frame = tk.Frame(self.root)
-        self.title_frame.pack(side=tk.TOP, fill=tk.X)
+def final_window(top_songs):
+    """
+    blah
+    """
+    root = tk.Tk()
+    root.title("Top 10 songs")
+    root.geometry("400x700")
 
-        self.title = tk.Label(self.title_frame, text="Songs", font=("Times New Roman", 50))
-        self.title.pack(side=tk.TOP, padx=10, pady=10)
+    title_frame = tk.Frame(root)
+    title_frame.pack(side=tk.TOP, fill=tk.X)
 
-        textbox = tk.Text(self.root, width=40, height=5, wrap="word")
-        listbox_frame = tk.Frame(self.root)
-        listbox_frame.pack(side=tk.TOP, pady=10)
+    title = tk.Label(title_frame, text="Songs", font=("Times New Roman", 50))
+    title.pack(side=tk.TOP, padx=10, pady=10)
 
-        song_list = []
-        listbox = FinalListBox(root, background="gray", songs=[], output_text=textbox)
-        for song in top_song:
-            song_list.append(song.item)
-            listbox.insert(tk.END, song.item.song_name)
-        listbox.songs = song_list
-        listbox.pack()
+    listbox_frame = tk.Frame(root)
+    listbox_frame.pack(side=tk.TOP, pady=10)
+
+    textbox = tk.Text(root, width=40, height=5, wrap="word")
+    listbox = FinalListBox(root, background="gray", songs=top_songs, output_text=textbox)
+    listbox.pack()
+    root.mainloop()

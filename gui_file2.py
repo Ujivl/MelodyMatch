@@ -4,7 +4,7 @@ file implementing the gui of the application
 import tkinter as tk
 from typing import Union
 import app_data as ad
-from final_window import FinalWindow
+import final_window
 
 g, song_name_list, genre = ad.create_graph_without_edges("songs_test_small.csv")
 
@@ -142,11 +142,7 @@ def save_all_information(root, priority_list: PrioritizeApp, drag_drop_object: D
                              explicit=explicit)
     final_selected_songs = g.sort_weights(10)
     root.destroy()
-    new_root = tk.Tk()
-    FinalWindow(new_root, final_selected_songs)
-    new_root.title("FinalWindow")
-    new_root.geometry("400x700")
-    new_root.mainloop()
+    final_window.final_window(final_selected_songs)
 
 
 def main():
@@ -164,7 +160,10 @@ def main():
     root.geometry("450x500")
 
     save_button = tk.Button(root, text="Calculate similar songs",
-                            command=lambda: save_all_information(root, priority_list, drag_drop_object, checkbox_var.get()))
+                            command=lambda: save_all_information(root,
+                                                                 priority_list,
+                                                                 drag_drop_object,
+                                                                 checkbox_var.get()))
     save_button.pack(pady=50)
 
     root.mainloop()
