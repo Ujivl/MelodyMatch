@@ -5,54 +5,11 @@ import tkinter as tk
 from typing import Union
 from tkinter import Scale
 
+import app_data as ad
+from final_window import FinalWindow
 
-
-class DragDropListbox(tk.Listbox):
-    """
-    This class creates a listbox which contains items that can be moved through drag and drop. It is a child class
-    that inherits the Listbox widget built into the tkinter module. The list box module creates a box with ordered
-    items. This child class lets the user move it around.
-
-    Instance Attributes:
-        - curIndex
-
-    """
-
-    curIndex: Union[None, float]
-
-    def __init__(self, root: tk.Tk, background: str):
-        """
-        Initializes a dragdroplistbox object that lets the user drag around the items in the listbox
-        """
-        super().__init__(root, bg=background)
-        self.bind('<Button-1>', self.set_current)
-        self.bind('<B1-Motion>', self.shift_selection)
-        self.curIndex = None
-
-    def set_current(self, event):
-        """
-        When the left mouse is clicked, this function gets called. It takes in the mouse y coordinate and assigns it to
-        currIndex.
-        """
-        self.curIndex = self.nearest(event.y)
-
-    def shift_selection(self, event):
-        """
-        gets the nearest position where the mouse is moved and then moves it down or above based on whether it is lesser
-        or greater than the currIndex
-        """
-        i = self.nearest(event.y)
-        if i < self.curIndex:
-            x = self.get(i)
-            self.delete(i)
-            self.insert(i + 1, x)
-            self.curIndex = i
-        elif i > self.curIndex:
-            x = self.get(i)
-            self.delete(i)
-            self.insert(i - 1, x)
-            self.curIndex = i
-
+g, song_name_list, genre_name_set = ad.create_graph_without_edges_and_list("songs_test_small.csv")
+print(song_name_list)
 
 class PrioritizeApp_1:
     """
@@ -64,6 +21,7 @@ class PrioritizeApp_1:
 
         # Initial list of items
         self.items = [
+            "genre",
             "year released",
             "popularity",
             "danceability",
@@ -72,61 +30,63 @@ class PrioritizeApp_1:
             "instrumentalness",
             "valence",
             "tempo",
-            "genre"
+            "explicit"
         ]
 
         self.entries = {}
 
         for item in self.items:
-            self.question_label = tk.Label(root, text=item)
-            self.question_label.pack(padx=10, pady=5)
-            #
-            answer_entry = tk.Entry(root, width=50)
-            answer_entry.pack(padx=10, pady=5)
+            if item == 'genre':
+                self.question_label = tk.Label(root, text=item)
+                self.question_label.pack(padx=10, pady=4)
+                self.options = sorted(genre_name_set)
+                self.value_inside = tk.StringVar(root)
+                self.value_inside.set(self.options[0])  # Set the default value
+                self.dropdown_menu = tk.OptionMenu(root, self.value_inside, *self.options)
+                self.dropdown_menu.pack()
+                self.entries[item] = self.value_inside
 
-            self.entries[item] = answer_entry
+            elif item == 'explicit':
+                checkbox_var = tk.BooleanVar()
+                self.check = tk.Checkbutton(root, text="Explicit", variable=checkbox_var)
+                self.check.pack(pady=10)
+
+            else:
+                self.question_label = tk.Label(root, text=item)
+                self.question_label.pack(padx=10, pady=4)
+                minimum, maximum = get_max_min(item)
+                slider = Scale(root, from_=minimum, to=maximum, orient='horizontal')
+                slider.pack(padx=10, pady=4)
+                self.entries[item] = slider
 
         self.submit_button = tk.Button(root, text="Submit", command=self.submit_answer)
         self.submit_button.pack(pady=10)
 
     def submit_answer(self):
         all_answers = {item: entry.get() for item, entry in self.entries.items()}
-        print(all_answers)
 
-        print(verify(all_answers))
+        # Create song object and cook...
+        temp_song = Song(...)
+        g.add_vertex(temp_song)
+        g.add_all_weighted_edges(chosen_song=temp_song, prioritylist=..., explicit=...)
 
-        if all([all_answers[key] != "" for key in all_answers.keys()]) and verify(all_answers):
-            #NEW WINDOW to display the artists that they match with...
-            self.open_new_window()
-
-        else:
-            print("please answer all questions")
-
-    def save_prioritization(self):
-        """
-            Saves the prioritized items and prints them out for now, this will chance later.
-            """
-        attributes_with_weights = {}
-        weight = 9
-        prioritized_attributes = self.listbox.get(0, tk.END)
-        for attribute in prioritized_attributes:
-            attributes_with_weights[attribute] = weight
-            weight -= 1
-        print("Prioritized Items with weights: " + str(attributes_with_weights))
+        self.root.destroy()
+        new_root = tk.Tk()
+        FinalWindow(new_root, g.sort_weights(10))
+        new_root.title("FinalWindow")
+        new_root.geometry("400x800")
+        new_root.mainloop()
 
 
-def verify(all_answers) -> bool:
+def get_max_min(item: str) -> (float, float):
     """
-    Verify every input so it is correct...
-
+    Need to incoroprate for each properly
     """
-    verify_list = [] #NOT SURE?
-    verify_list.append((all_answers["year released"].isdigit()
-                        and 2010 <= int(all_answers["year released"]) <= 2020))
+    if item == 'year released':
+        return 1990, 2020
 
-    print(verify_list)
-
-    return all(verify_list)
+    else:
+        return 0, 100
 
 
 def main():
@@ -137,7 +97,7 @@ def main():
     root = tk.Tk()
     PrioritizeApp_1(root)
     root.title("MelodyMatcher")
-    root.geometry("400x700")
+    root.geometry("400x800")
     root.mainloop()
 
 

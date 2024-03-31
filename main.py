@@ -53,7 +53,7 @@ class HomeScreen:
         root = tk.Tk()
         PrioritizeApp_1(root)
         root.title("Idea1")
-        root.geometry("400x700")
+        root.geometry("400x800")
         root.mainloop()
 
     def open_project_two(self):

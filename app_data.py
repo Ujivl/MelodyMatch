@@ -3,7 +3,7 @@ Song class file
 """
 from __future__ import annotations
 import csv
-from typing import Any, Optional
+from typing import Any, Optional, Tuple, List, Set
 
 
 class Song:
@@ -200,19 +200,21 @@ class WeightedGraph:
         return sorted_dict
 
 
-def create_graph_without_edges_and_list(file: str) -> tuple[WeightedGraph, list[str]]:
+def create_graph_without_edges_and_list(file: str) -> tuple[WeightedGraph, list[str], set[str]]:
     """
     Returns a weighted graph without any edge connections yet.
     """
     g = WeightedGraph()
     li = []
+    genre_name_set = set()
     with open(file, 'r') as song_file:
         line_reader = csv.reader(song_file)
         song_file.readline()
         for row in line_reader:
             li.append(row[1])
+            genre_name_set.add(row[17])
             song = Song(row[0], row[1], (row[3] == "True"), int(row[4]), int(row[5]), float(row[6]), float(row[7]),
                         int(row[8]), float(row[9]), int(row[10]), float(row[11]), float(row[12]), float(row[13]),
                         float(row[14]), float(row[15]), set("".split(row[16])))
             g.add_vertex(song)
-    return (g, li)
+    return g, li, genre_name_set

@@ -6,7 +6,7 @@ from typing import Union
 import app_data as ad
 from final_window import FinalWindow
 
-g, song_name_list = ad.create_graph_without_edges_and_list("songs_test_small.csv")
+g, song_name_list, genre = ad.create_graph_without_edges_and_list("songs_test_small.csv")
 
 
 class DragDropListbox(tk.Listbox):
