@@ -66,7 +66,7 @@ def main():
     root = tk.Tk()
     HomeScreen(root)
     root.title("MelodyMatcher")
-    root.geometry("750x500")
+    root.geometry("750x600")
     root.mainloop()
 
 
