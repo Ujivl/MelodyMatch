@@ -131,7 +131,13 @@ def main():
     root = tk.Tk()
     PrioritizeApp_1(root)
     root.title("MelodyMatcher")
-    root.geometry("900x900")
+    root.geometry("900x1000")
+    bg = tk.PhotoImage(file="pictures/image.png")
+    bg1 = tk.PhotoImage(file="pictures/image3.png")
+    label1 = tk.Label(root, image=bg)
+    label1.place(x=0, y=0)
+    label2 = tk.Label(root, image=bg1)
+    label2.place(x=0, y=757)
     root.mainloop()
 
 

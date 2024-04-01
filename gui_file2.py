@@ -50,7 +50,8 @@ class DragDropListbox(tk.Listbox):
         # self.selection = tk.Label(root, text="Please rank how you value these musical characteristics:",
         #                           font=('Times New Roman', 18))
         self.selection = customtkinter.CTkLabel(master=root,
-                                                text="Please rank how you value these musical characteristics:")
+                                                text="Please rank how you value these musical characteristics:",
+                                                font=('Comfortaa', 18))
         self.selection.pack(pady=10)
 
         for item in self.items:
@@ -107,14 +108,15 @@ class DropdownBox:
         self.root = root
 
         # self.label = tk.Label(root, text="Select a Song:", font=('Times New Roman', 18), anchor='center')
-        self.label = customtkinter.CTkLabel(master=root, text="Select a Song:")
+        self.label = customtkinter.CTkLabel(master=root, text="Select a Song:", font=('Comfortaa', 18))
         self.label.pack()
 
         self.options = song_name_list
         self.value_inside = tk.StringVar(root)
         self.value_inside.set(self.options[0])
-        self.dropdown_menu = tk.OptionMenu(root, self.value_inside, *self.options)
-        self.dropdown_menu.config(anchor='center')
+        # self.dropdown_menu = tk.OptionMenu(root, self.value_inside, *self.options)
+        self.dropdown_menu = customtkinter.CTkOptionMenu(master=root, variable=self.value_inside, values=self.options)
+        # self.dropdown_menu.config(anchor='center')
         self.dropdown_menu.pack()
 
     def on_select(self):
@@ -166,7 +168,7 @@ def main():
                                                                                priority_list_object,
                                                                                song_selection_object,
                                                                                checkbox_var.get()))
-    bg = tk.PhotoImage(file="image.png")
+    bg = tk.PhotoImage(file="pictures/image.png")
     label1 = tk.Label(root, image=bg)
     label1.place(x=0, y=0)
     save_button.pack(pady=50)

@@ -1,4 +1,7 @@
 import tkinter as tk
+
+import customtkinter
+
 import app_data as ad
 
 
@@ -49,7 +52,9 @@ def final_window(top_songs: list[ad.Song], selected_song: str):
     root.title("Top 10 songs")
     root.geometry("600x600")
 
-    label = tk.Label(root, text=f"10 songs that are similar to: {selected_song}", font=('Times New Roman', 18))
+    # label = tk.Label(root, text=f"10 songs that are similar to: {selected_song}", font=('Times New Roman', 18))
+    label = customtkinter.CTkLabel(master=root, text=f"10 songs that are similar to: {selected_song}",
+                                   font=('Comfortaa', 18))
     label.pack(pady=10)
     listbox_frame = tk.Frame(root)
     listbox_frame.pack(side=tk.TOP, pady=10)
