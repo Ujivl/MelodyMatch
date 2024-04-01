@@ -51,7 +51,7 @@ class DragDropListbox(tk.Listbox):
         self.selection.pack(pady=10)
 
         for item in self.items:
-            self.insert(tk.END, item)
+            self.insert(tk.END, item.capitalize())
         self.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
         self.attributes_with_weights = {}
         self.curIndex = None

@@ -4,6 +4,7 @@ file implementing the gui of the application
 import tkinter as tk
 from tkinter import Scale
 from tkinter import ttk, Frame, Canvas, BOTH, LEFT, RIGHT, Y
+import customtkinter
 
 import app_data as ad
 import final_window
@@ -51,7 +52,9 @@ class PrioritizeApp_1:
                 self.options = sorted(genre_name_set)
                 self.value_inside = tk.StringVar(second)
                 self.value_inside.set(self.options[0])  # Set the default value
-                self.dropdown_menu = tk.OptionMenu(second, self.value_inside, *self.options)
+                # self.dropdown_menu = tk.OptionMenu(second, self.value_inside, *self.options)
+                self.dropdown_menu = customtkinter.CTkOptionMenu(master=second, variable=self.value_inside,
+                                                                 values=self.options)
                 # self.dropdown_menu.pack()
                 self.dropdown_menu.grid(column=0, row=1)
                 self.entries[item] = self.value_inside
@@ -60,7 +63,8 @@ class PrioritizeApp_1:
 
             elif item == 'explicit':
                 self.checkbox_var = tk.BooleanVar()
-                self.check = tk.Checkbutton(second, text="Explicit", variable=self.checkbox_var)
+                # self.check = tk.Checkbutton(second, text="Explicit", variable=self.checkbox_var)
+                self.check = customtkinter.CTkCheckBox(master=second, text="Explicit", variable=self.checkbox_var)
                 # self.check.pack()
                 self.check.grid(column=0, row=40)
                 self.entries[item] = self.checkbox_var
@@ -81,36 +85,27 @@ class PrioritizeApp_1:
 
             y_count += 1
 
-        self.button = tk.Button(second, text="Genre?", command=lambda: self.what_is_item('genre'))
-        self.button.grid(column=1, row=1)
-        self.button = tk.Button(second, text="Year Released?", command=lambda: self.what_is_item('year released'))
-        self.button.grid(column=1, row=6)
-        self.button = tk.Button(second, text="Popularity?", command=lambda: self.what_is_item('popularity'))
-        self.button.grid(column=1, row=8)
-        self.button = tk.Button(second, text="Danceability?", command=lambda: self.what_is_item('danceability'))
-        self.button.grid(column=1, row=10)
-        self.button = tk.Button(second, text="Energy?", command=lambda: self.what_is_item('energy'))
-        self.button.grid(column=1, row=12)
-        self.button = tk.Button(second, text="Key?", command=lambda: self.what_is_item('key'))
-        self.button.grid(column=1, row=14)
-        self.button = tk.Button(second, text="Loudness?", command=lambda: self.what_is_item('loudness'))
-        self.button.grid(column=1, row=16)
-        self.button = tk.Button(second, text="Mode?", command=lambda: self.what_is_item('mode'))
-        self.button.grid(column=1, row=18)
-        self.button = tk.Button(second, text="Speechiness?", command=lambda: self.what_is_item('speechiness'))
-        self.button.grid(column=1, row=20)
-        self.button = tk.Button(second, text="Acousticness?", command=lambda: self.what_is_item('acousticness'))
-        self.button.grid(column=1, row=22)
-        self.button = tk.Button(second, text="Instrumentalness?", command=lambda: self.what_is_item('instrumentalness'))
-        self.button.grid(column=1, row=24)
-        self.button = tk.Button(second, text="Valence?", command=lambda: self.what_is_item('valence'))
-        self.button.grid(column=1, row=26)
-        self.button = tk.Button(second, text="Tempo?", command=lambda: self.what_is_item('tempo'))
-        self.button.grid(column=1, row=28)
-        self.button = tk.Button(second, text="Explicit?", command=lambda: self.what_is_item('explicit'))
-        self.button.grid(column=1, row=40)
+        dictionary = {"Genre?": [lambda: self.what_is_item('genre'), 1],
+                      "Year Released?": [lambda: self.what_is_item('year released'), 6],
+                      "Popularity?": [lambda: self.what_is_item('popularity'), 8],
+                      "Danceability?": [lambda: self.what_is_item('danceability'), 10],
+                      "Energy?": [lambda: self.what_is_item('energy'), 12],
+                      "Key?": [lambda: self.what_is_item('key'), 14],
+                      "Loudness?": [lambda: self.what_is_item('loudness'), 16],
+                      "Mode?": [lambda: self.what_is_item('mode'), 18],
+                      "Speechiness?": [lambda: self.what_is_item('speechiness'), 20],
+                      "Acousticness?": [lambda: self.what_is_item('acousticness'), 22],
+                      "Instrumentalness?": [lambda: self.what_is_item('instrumentalness'), 24],
+                      "Valence?": [lambda: self.what_is_item('valence'), 26],
+                      "Tempo?": [lambda: self.what_is_item('tempo'), 28],
+                      "Explicit?": [lambda: self.what_is_item('explicit'), 40]}
 
-        self.submit_button = tk.Button(second, text="Submit", command=self.submit_answer)
+        for item in dictionary:
+            self.button = customtkinter.CTkButton(master=second, text=item, command=dictionary[item][0])
+            self.button.grid(column=1, row=dictionary[item][1])
+
+        # self.submit_button = tk.Button(second, text="Submit", command=self.submit_answer)
+        self.submit_button = customtkinter.CTkButton(master=second, text="Submit", command=self.submit_answer)
         # self.submit_button.pack(pady=1)
         self.submit_button.grid(column=0, row=45)
 
@@ -175,7 +170,7 @@ def main():
     # Create the tkinter window and PrioritizeApp instance
     root = tk.Tk()
     root.title('MelodyMatcher')
-    root.geometry("500x600")
+    root.geometry("500x900")
 
     main_frame = Frame(root)
     main_frame.pack(fill=BOTH, expand=1)
