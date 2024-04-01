@@ -4,6 +4,8 @@ file implementing the gui of the application
 import tkinter as tk
 from tkinter import Scale
 
+import customtkinter
+
 import app_data as ad
 import final_window
 
@@ -42,31 +44,37 @@ class PrioritizeApp_1:
 
         for item in self.items:
             if item == 'genre':
-                self.question_label = tk.Label(root, text=item)
+                # self.question_label = tk.Label(root, text=item)
+                self.question_label = customtkinter.CTkLabel(master=root, text=item.capitalize())
                 self.question_label.pack()
                 self.options = sorted(genre_name_set)
                 self.value_inside = tk.StringVar(root)
                 self.value_inside.set(self.options[0])  # Set the default value
-                self.dropdown_menu = tk.OptionMenu(root, self.value_inside, *self.options)
+                # self.dropdown_menu = tk.OptionMenu(root, self.value_inside, *self.options)
+                self.dropdown_menu = customtkinter.CTkOptionMenu(master=root, variable=self.value_inside,
+                                                                 values=self.options)
                 self.dropdown_menu.pack()
                 self.entries[item] = self.value_inside
 
             elif item == 'explicit':
                 self.checkbox_var = tk.BooleanVar()
-                self.check = tk.Checkbutton(root, text="Explicit", variable=self.checkbox_var)
+                # self.check = tk.Checkbutton(root, text="Explicit", variable=self.checkbox_var)
+                self.check = customtkinter.CTkCheckBox(master=root, text="Explicit", variable=self.checkbox_var)
                 self.check.pack()
                 self.entries[item] = self.checkbox_var
 
             else:
-                self.question_label = tk.Label(root, text=item)
+                # self.question_label = tk.Label(root, text=item)
+                self.question_label = customtkinter.CTkLabel(master=root, text=item.capitalize())
                 self.question_label.pack()
                 minimum, maximum, index = get_max_min(item)
                 slider = Scale(root, from_=minimum, to=maximum, resolution=index, orient='horizontal')
                 slider.pack(pady=1)
                 self.entries[item] = slider
 
-        self.submit_button = tk.Button(root, text="Submit", command=self.submit_answer)
-        self.submit_button.pack(pady=1)
+        # self.submit_button = tk.Button(root, text="Submit", command=self.submit_answer)
+        self.submit_button = customtkinter.CTkButton(master=root, text="Submit", command=self.submit_answer)
+        self.submit_button.pack(pady=10)
 
     def submit_answer(self):
         """artist: str, song_name: str, explicit: bool, year: int, popularity: int, danceability: float,
@@ -123,7 +131,7 @@ def main():
     root = tk.Tk()
     PrioritizeApp_1(root)
     root.title("MelodyMatcher")
-    root.geometry("400x1200")
+    root.geometry("900x900")
     root.mainloop()
 
 

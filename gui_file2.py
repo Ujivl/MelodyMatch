@@ -5,6 +5,7 @@ import tkinter as tk
 from typing import Union
 import app_data as ad
 import final_window
+import customtkinter
 
 g, song_name_list, genre = ad.create_graph_without_edges("songs_test_small.csv")
 
@@ -26,7 +27,7 @@ class DragDropListbox(tk.Listbox):
         """
         Initializes a dragdroplistbox object that lets the user drag around the items in the listbox
         """
-        super().__init__(root, bg=background)
+        super().__init__(root, bg=background, justify='center')
         self.bind('<Button-1>', self.set_current)
         self.bind('<B1-Motion>', self.shift_selection)
 
@@ -46,12 +47,14 @@ class DragDropListbox(tk.Listbox):
             "genre"
         ]
 
-        self.selection = tk.Label(root, text="Please rank how you value these musical characteristics:",
-                                  font=('Times New Roman', 18))
+        # self.selection = tk.Label(root, text="Please rank how you value these musical characteristics:",
+        #                           font=('Times New Roman', 18))
+        self.selection = customtkinter.CTkLabel(master=root,
+                                                text="Please rank how you value these musical characteristics:")
         self.selection.pack(pady=10)
 
         for item in self.items:
-            self.insert(tk.END, item)
+            self.insert(tk.END, item.capitalize())
         self.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
         self.attributes_with_weights = {}
         self.curIndex = None
@@ -88,7 +91,7 @@ class DragDropListbox(tk.Listbox):
         weight = 1
         prioritized_attributes = self.get(0, tk.END)
         for attribute_imdex in range(len(prioritized_attributes) - 1, -1, -1):
-            self.attributes_with_weights[prioritized_attributes[attribute_imdex]] = (10 ** weight)
+            self.attributes_with_weights[prioritized_attributes[attribute_imdex].lower()] = (10 ** weight)
             weight += 1
         print("Prioritized Items with weights: " + str(self.attributes_with_weights))
 
@@ -103,13 +106,15 @@ class DropdownBox:
     def __init__(self, root):
         self.root = root
 
-        self.label = tk.Label(root, text="Select a Song:", font=('Times New Roman', 18))
+        # self.label = tk.Label(root, text="Select a Song:", font=('Times New Roman', 18), anchor='center')
+        self.label = customtkinter.CTkLabel(master=root, text="Select a Song:")
         self.label.pack()
 
         self.options = song_name_list
         self.value_inside = tk.StringVar(root)
         self.value_inside.set(self.options[0])
         self.dropdown_menu = tk.OptionMenu(root, self.value_inside, *self.options)
+        self.dropdown_menu.config(anchor='center')
         self.dropdown_menu.pack()
 
     def on_select(self):
@@ -139,22 +144,31 @@ def main():
     The main function file, this is where the root and main window is called.
     """
     # Create the tkinter window and PrioritizeApp instance
-    root = tk.Tk()
+    root = customtkinter.CTk()
     root.title("MelodyMatcher")
-    root.geometry("600x600")
+    root.geometry("1000x600")
 
     song_selection_object = DropdownBox(root)
     priority_list_object = DragDropListbox(root, "gray")
 
     checkbox_var = tk.BooleanVar()
-    checkbox = tk.Checkbutton(root, text="Explicit", variable=checkbox_var)
+    # checkbox = tk.Checkbutton(root, text="Explicit", variable=checkbox_var)
+    checkbox = customtkinter.CTkCheckBox(master=root, text="Explicit", variable=checkbox_var)
     checkbox.pack(pady=10)
 
-    save_button = tk.Button(root, text="Calculate similar songs",
-                            command=lambda: save_all_information(root,
-                                                                 priority_list_object,
-                                                                 song_selection_object,
-                                                                 checkbox_var.get()))
+    # save_button = tk.Button(root, text="Calculate similar songs",
+    #                         command=lambda: save_all_information(root,
+    #                                                              priority_list_object,
+    #                                                              song_selection_object,
+    #                                                              checkbox_var.get()))
+    save_button = customtkinter.CTkButton(master=root, text="Calculate similar songs",
+                                          command=lambda: save_all_information(root,
+                                                                               priority_list_object,
+                                                                               song_selection_object,
+                                                                               checkbox_var.get()))
+    bg = tk.PhotoImage(file="image.png")
+    label1 = tk.Label(root, image=bg)
+    label1.place(x=0, y=0)
     save_button.pack(pady=50)
     root.mainloop()
 
