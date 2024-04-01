@@ -10,7 +10,7 @@ import final_window
 from app_data import Song
 
 g, song_name_list, genre_name_set = ad.create_graph_without_edges("songs_test_small.csv")
-# print(song_name_list)
+
 
 class PrioritizeApp_1:
     """
@@ -86,7 +86,8 @@ class PrioritizeApp_1:
 
         chosen_songs = g.sort_weights(10)
         self.root.destroy()
-        final_window.final_window(chosen_songs)
+        # Can edit later
+        final_window.final_window(chosen_songs, "Your Song")
 
 
 def get_max_min(item: str) -> (float, float, float):
@@ -97,8 +98,8 @@ def get_max_min(item: str) -> (float, float, float):
         return 1990, 2020, 1
     elif item == 'popularity':
         return 0, 100, 1
-    elif (item == 'danceability' or item == 'energy' or item == 'acousticness' or item == 'instrumentalness' \
-          or item == 'valence'):
+    elif (item == 'danceability' or item == 'energy' or item == 'acousticness'
+          or item == 'instrumentalness' or item == 'valence'):
         return 0, 1, 0.01
     elif item == 'key':
         return 0, 11, 1
@@ -112,7 +113,6 @@ def get_max_min(item: str) -> (float, float, float):
         return 0.02, 0.85, 0.01
     elif item == 'tempo':
         return 60, 211, 1
-
 
 
 def main():
