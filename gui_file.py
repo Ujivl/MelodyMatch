@@ -3,6 +3,7 @@ file implementing the gui of the application
 """
 import tkinter as tk
 from tkinter import Scale
+from tkinter import ttk, Frame, Canvas, BOTH, LEFT, RIGHT, Y
 
 import app_data as ad
 import final_window
@@ -172,9 +173,25 @@ def main():
     """
     # Create the tkinter window and PrioritizeApp instance
     root = tk.Tk()
-    PrioritizeApp_1(root)
-    root.title("MelodyMatcher")
-    root.geometry("300x1200")
+    root.title('MelodyMatcher')
+    root.geometry("315x600")
+
+    main_frame = Frame(root)
+    main_frame.pack(fill=BOTH, expand=1)
+
+    canvas = Canvas(main_frame)
+    canvas.pack(side=LEFT, fill=BOTH, expand=1)
+
+    scroller = ttk.Scrollbar(main_frame, orient="vertical", command=canvas.yview)
+    scroller.pack(side=RIGHT, fill=Y)
+    canvas.configure(yscrollcommand=scroller.set)
+
+    canvas.bind('<Configure>', lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+    second_frame = Frame(canvas)
+    canvas.create_window((0, 0), window=second_frame, anchor="nw")
+
+    PrioritizeApp_1(second_frame)
+
     root.mainloop()
 
 
