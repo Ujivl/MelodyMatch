@@ -87,7 +87,7 @@ class PrioritizeApp_1:
         chosen_songs = g.sort_weights(10)
         self.root.destroy()
         # Can edit later
-        final_window.final_window(chosen_songs, "Your Song")
+        final_window.final_window(chosen_songs, "Your Values")
 
 
 def get_max_min(item: str) -> (float, float, float):
