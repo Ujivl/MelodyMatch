@@ -134,6 +134,14 @@ def save_all_information(root, priority_list_object: DragDropListbox, drag_drop_
     final_window.final_window(final_selected_songs, drag_drop_object.selected_song)
 
 
+def what_is_item(item: str):
+    """artist: str, song_name: str, explicit: bool, year: int, popularity: int, danceability: float,
+    energy: float, key: int, loudness: float, mode: int, speechiness: float, acousticness: float,
+    instrumentalness: float, valence: float, tempo: float, genre: set[str]"""
+
+    final_window.description(item)
+
+
 def main():
     """
     The main function file, this is where the root and main window is called.
@@ -141,12 +149,49 @@ def main():
     # Create the tkinter window and PrioritizeApp instance
     root = tk.Tk()
     root.title("MelodyMatcher")
-    root.geometry("600x600")
+    root.geometry("600x700")
 
     song_selection_object = DropdownBox(root)
     priority_list_object = DragDropListbox(root, "gray")
 
     checkbox_var = tk.BooleanVar()
+
+    buttonframe = tk.Frame(root)
+    buttonframe.columnconfigure(0, weight=1)
+    buttonframe.columnconfigure(1, weight=1)
+    buttonframe.columnconfigure(2, weight=1)
+
+    button = tk.Button(buttonframe, text="Genre?", font=("Times New Roman", 18), command=lambda: what_is_item('genre'))
+    button.grid(row=0, column=0, sticky=tk.W + tk.E)
+    button2 = tk.Button(buttonframe, text="Year Released?", font=("Times New Roman", 18), command=lambda: what_is_item('year released'))
+    button2.grid(row=0, column=1, sticky=tk.W + tk.E)
+    button3 = tk.Button(buttonframe, text="Popularity?", font=("Times New Roman", 18), command=lambda: what_is_item('popularity'))
+    button3.grid(row=0, column=2, sticky=tk.W + tk.E)
+    button4 = tk.Button(buttonframe, text="Danceability?", font=("Times New Roman", 18), command=lambda: what_is_item('danceability'))
+    button4.grid(row=1, column=0, sticky=tk.W + tk.E)
+    button5 = tk.Button(buttonframe, text="Energy?", font=("Times New Roman", 18), command=lambda: what_is_item('energy'))
+    button5.grid(row=1, column=1, sticky=tk.W + tk.E)
+    button6 = tk.Button(buttonframe, text="Key?", font=("Times New Roman", 18), command=lambda: what_is_item('key'))
+    button6.grid(row=1, column=2, sticky=tk.W + tk.E)
+    button7 = tk.Button(buttonframe, text="Loudness?", font=("Times New Roman", 18), command=lambda: what_is_item('loudness'))
+    button7.grid(row=2, column=0, sticky=tk.W + tk.E)
+    button8 = tk.Button(buttonframe, text="Mode?", font=("Times New Roman", 18), command=lambda: what_is_item('mode'))
+    button8.grid(row=2, column=1, sticky=tk.W + tk.E)
+    button9 = tk.Button(buttonframe, text="Speechiness?", font=("Times New Roman", 18), command=lambda: what_is_item('speechiness'))
+    button9.grid(row=2, column=2, sticky=tk.W + tk.E)
+    button10 = tk.Button(buttonframe, text="Acousticness?", font=("Times New Roman", 18), command=lambda: what_is_item('acousticness'))
+    button10.grid(row=3, column=0, sticky=tk.W + tk.E)
+    button11 = tk.Button(buttonframe, text="Instrumentalness?", font=("Times New Roman", 18), command=lambda: what_is_item('instrumentalness'))
+    button11.grid(row=3, column=1, sticky=tk.W + tk.E)
+    button12 = tk.Button(buttonframe, text="Valence?", font=("Times New Roman", 18), command=lambda: what_is_item('valence'))
+    button12.grid(row=3, column=2, sticky=tk.W + tk.E)
+    button13 = tk.Button(buttonframe, text="Tempo?", font=("Times New Roman", 18), command=lambda: what_is_item('tempo'))
+    button13.grid(row=4, column=0, sticky=tk.W + tk.E)
+    button14 = tk.Button(buttonframe, text="Explicit?",font=("Times New Roman", 18), command=lambda: what_is_item('explicit'))
+    button14.grid(row=4, column=1, sticky=tk.W + tk.E)
+
+    buttonframe.pack(fill='x')
+
     checkbox = tk.Checkbutton(root, text="Explicit", variable=checkbox_var)
     checkbox.pack(pady=10)
 
