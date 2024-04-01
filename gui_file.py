@@ -79,7 +79,7 @@ class PrioritizeApp_1:
                          ans[7], ans[8], ans[9], ans[10], ans[11], ans[12], set(ans[0].split(',')))
 
         # WHAT TO SET PRIORITY SCORE?
-        priority = {factor: 1 for factor in temp_song.similarity_factors}
+        priority = {factor: 1000000 for factor in temp_song.similarity_factors}
         g.add_vertex(temp_song)
         g.chosen_song = temp_song
         g.add_all_weighted_edges(chosen_song=g.chosen_song, prioritylist=priority, explicit=temp_song.explicit)
