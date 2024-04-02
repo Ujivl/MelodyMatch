@@ -5,6 +5,7 @@ import tkinter as tk
 from typing import Union
 import app_data as ad
 import final_window
+import customtkinter
 
 g, song_name_list, genre = ad.create_graph_without_edges("songs_test_small.csv")
 
@@ -26,7 +27,7 @@ class DragDropListbox(tk.Listbox):
         """
         Initializes a dragdroplistbox object that lets the user drag around the items in the listbox
         """
-        super().__init__(root, bg=background)
+        super().__init__(root, bg=background, justify="center")
         self.bind('<Button-1>', self.set_current)
         self.bind('<B1-Motion>', self.shift_selection)
 
@@ -88,7 +89,7 @@ class DragDropListbox(tk.Listbox):
         weight = 1
         prioritized_attributes = self.get(0, tk.END)
         for attribute_imdex in range(len(prioritized_attributes) - 1, -1, -1):
-            self.attributes_with_weights[prioritized_attributes[attribute_imdex]] = (10 ** weight)
+            self.attributes_with_weights[prioritized_attributes[attribute_imdex].lower()] = (10 ** weight)
             weight += 1
         print("Prioritized Items with weights: " + str(self.attributes_with_weights))
 
@@ -109,7 +110,8 @@ class DropdownBox:
         self.options = song_name_list
         self.value_inside = tk.StringVar(root)
         self.value_inside.set(self.options[0])
-        self.dropdown_menu = tk.OptionMenu(root, self.value_inside, *self.options)
+        # self.dropdown_menu = tk.OptionMenu(root, self.value_inside, *self.options)
+        self.dropdown_menu = customtkinter.CTkOptionMenu(master=root, variable=self.value_inside, values=self.options)
         self.dropdown_menu.pack()
 
     def on_select(self):
@@ -161,45 +163,41 @@ def main():
     buttonframe.columnconfigure(1, weight=1)
     buttonframe.columnconfigure(2, weight=1)
 
-    button = tk.Button(buttonframe, text="Genre?", font=("Times New Roman", 18), command=lambda: what_is_item('genre'))
-    button.grid(row=0, column=0, sticky=tk.W + tk.E)
-    button2 = tk.Button(buttonframe, text="Year Released?", font=("Times New Roman", 18), command=lambda: what_is_item('year released'))
-    button2.grid(row=0, column=1, sticky=tk.W + tk.E)
-    button3 = tk.Button(buttonframe, text="Popularity?", font=("Times New Roman", 18), command=lambda: what_is_item('popularity'))
-    button3.grid(row=0, column=2, sticky=tk.W + tk.E)
-    button4 = tk.Button(buttonframe, text="Danceability?", font=("Times New Roman", 18), command=lambda: what_is_item('danceability'))
-    button4.grid(row=1, column=0, sticky=tk.W + tk.E)
-    button5 = tk.Button(buttonframe, text="Energy?", font=("Times New Roman", 18), command=lambda: what_is_item('energy'))
-    button5.grid(row=1, column=1, sticky=tk.W + tk.E)
-    button6 = tk.Button(buttonframe, text="Key?", font=("Times New Roman", 18), command=lambda: what_is_item('key'))
-    button6.grid(row=1, column=2, sticky=tk.W + tk.E)
-    button7 = tk.Button(buttonframe, text="Loudness?", font=("Times New Roman", 18), command=lambda: what_is_item('loudness'))
-    button7.grid(row=2, column=0, sticky=tk.W + tk.E)
-    button8 = tk.Button(buttonframe, text="Mode?", font=("Times New Roman", 18), command=lambda: what_is_item('mode'))
-    button8.grid(row=2, column=1, sticky=tk.W + tk.E)
-    button9 = tk.Button(buttonframe, text="Speechiness?", font=("Times New Roman", 18), command=lambda: what_is_item('speechiness'))
-    button9.grid(row=2, column=2, sticky=tk.W + tk.E)
-    button10 = tk.Button(buttonframe, text="Acousticness?", font=("Times New Roman", 18), command=lambda: what_is_item('acousticness'))
-    button10.grid(row=3, column=0, sticky=tk.W + tk.E)
-    button11 = tk.Button(buttonframe, text="Instrumentalness?", font=("Times New Roman", 18), command=lambda: what_is_item('instrumentalness'))
-    button11.grid(row=3, column=1, sticky=tk.W + tk.E)
-    button12 = tk.Button(buttonframe, text="Valence?", font=("Times New Roman", 18), command=lambda: what_is_item('valence'))
-    button12.grid(row=3, column=2, sticky=tk.W + tk.E)
-    button13 = tk.Button(buttonframe, text="Tempo?", font=("Times New Roman", 18), command=lambda: what_is_item('tempo'))
-    button13.grid(row=4, column=0, sticky=tk.W + tk.E)
-    button14 = tk.Button(buttonframe, text="Explicit?",font=("Times New Roman", 18), command=lambda: what_is_item('explicit'))
-    button14.grid(row=4, column=1, sticky=tk.W + tk.E)
+    dictionary = {"Genre?": [lambda: what_is_item('genre'), [0, 0]],
+                  "Year Released?": [lambda: what_is_item('year released'), [0, 1]],
+                  "Popularity?": [lambda: what_is_item('popularity'), [0, 2]],
+                  "Danceability?": [lambda: what_is_item('danceability'), [1, 0]],
+                  "Energy?": [lambda: what_is_item('energy'), [1, 1]],
+                  "Key?": [lambda: what_is_item('key'), [1, 2]],
+                  "Loudness?": [lambda: what_is_item('loudness'), [2, 0]],
+                  "Mode?": [lambda: what_is_item('mode'), [2, 1]],
+                  "Speechiness?": [lambda: what_is_item('speechiness'), [2, 2]],
+                  "Acousticness?": [lambda: what_is_item('acousticness'), [3, 0]],
+                  "Instrumentalness?": [lambda: what_is_item('instrumentalness'), [3, 1]],
+                  "Valence?": [lambda: what_is_item('valence'), [3, 2]],
+                  "Tempo?": [lambda: what_is_item('tempo'), [4, 0]],
+                  "Explicit?": [lambda: what_is_item('explicit'), [4, 1]]}
+
+    for item in dictionary:
+        button = customtkinter.CTkButton(master=buttonframe, text=item, font=("Times New Roman", 18), command=dictionary[item][0])
+        button.grid(row=dictionary[item][1][0], column=dictionary[item][1][1], sticky=tk.W + tk.E)
 
     buttonframe.pack(fill='x')
 
-    checkbox = tk.Checkbutton(root, text="Explicit", variable=checkbox_var)
+    # checkbox = tk.Checkbutton(root, text="Explicit", variable=checkbox_var)
+    checkbox = customtkinter.CTkCheckBox(master=root, text="Explicit", variable=checkbox_var)
     checkbox.pack(pady=10)
 
-    save_button = tk.Button(root, text="Calculate similar songs",
-                            command=lambda: save_all_information(root,
-                                                                 priority_list_object,
-                                                                 song_selection_object,
-                                                                 checkbox_var.get()))
+    # save_button = tk.Button(root, text="Calculate similar songs",
+    #                         command=lambda: save_all_information(root,
+    #                                                              priority_list_object,
+    #                                                              song_selection_object,
+    #                                                              checkbox_var.get()))
+    save_button = customtkinter.CTkButton(master=root, text="Calculate similar songs",
+                                          command=lambda: save_all_information(root,
+                                                                               priority_list_object,
+                                                                               song_selection_object,
+                                                                               checkbox_var.get()))
     save_button.pack(pady=50)
     root.mainloop()
 

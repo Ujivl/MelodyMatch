@@ -17,7 +17,7 @@ class FinalListBox(tk.Listbox):
         """
         Initializes a dragdroplistbox object that lets the user drag around the items in the listbox
         """
-        super().__init__(root, bg=background, width=50)
+        super().__init__(root, bg=background, width=50,  justify="center")
         self.songs = songs
         self.bind('<Button-1>', self.display_info)
         self.output_text = output_text
