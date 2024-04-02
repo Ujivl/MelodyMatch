@@ -1,4 +1,7 @@
 import tkinter as tk
+
+import customtkinter
+
 import gui_file
 import gui_file2
 
@@ -35,10 +38,14 @@ class HomeScreen:
         self.buttonframe.columnconfigure(0, weight=1)
         self.buttonframe.columnconfigure(1, weight=1)
 
-        self.button = tk.Button(self.buttonframe, text="Manual", font=("Times New Roman", 18),
+        # self.button = tk.Button(self.buttonframe, text="Manual", font=("Times New Roman", 18),
+        #                         command=self.open_project_one)
+        self.button = customtkinter.CTkButton(master=self.buttonframe, text="Manual", font=("Times New Roman", 18),
                                 command=self.open_project_one)
         self.button.grid(row=0, column=0, sticky=tk.W + tk.E)
-        self.button2 = tk.Button(self.buttonframe, text="Automatic", font=("Times New Roman", 18),
+        # self.button2 = tk.Button(self.buttonframe, text="Automatic", font=("Times New Roman", 18),
+        #                          command=self.open_project_two)
+        self.button2 = customtkinter.CTkButton(master=self.buttonframe, text="Automatic", font=("Times New Roman", 18),
                                  command=self.open_project_two)
         self.button2.grid(row=0, column=1, sticky=tk.W + tk.E)
 
