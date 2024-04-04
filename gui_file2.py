@@ -6,11 +6,8 @@ widget that lets the user select the song they want similar songs to.
 """
 import tkinter as tk
 from typing import Union
-import app_data as ad
 import final_window
-from app_data import FILE_NAME
-
-G, SONG_NAME_LIST, GENRE = ad.create_graph_without_edges(FILE_NAME)
+from app_data import G, SONG_NAME_LIST
 
 
 class DragDropListbox(tk.Listbox):

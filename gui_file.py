@@ -5,11 +5,8 @@ import tkinter as tk
 from tkinter import BOTH, Canvas, Frame, LEFT, RIGHT, Scale, Y
 from typing import Any
 
-import app_data as ad
 import final_window
-from app_data import Song, FILE_NAME
-
-G, SONG_NAME_LIST, GENRE_NAME_SET = ad.create_graph_without_edges(FILE_NAME)
+from app_data import Song, G, GENRE_NAME_SET
 
 
 class PrioritizeApp:
