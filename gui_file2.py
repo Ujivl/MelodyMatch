@@ -110,7 +110,6 @@ class DropdownBox:
         self.value_inside = tk.StringVar(root)
         self.value_inside.set(self.options[0])
         self.dropdown_menu = tk.OptionMenu(root, self.value_inside, *self.options)
-        # self.dropdown_menu = customtkinter.CTkOptionMenu(master=root, variable=self.value_inside, values=self.options)
         self.dropdown_menu.pack()
 
     def on_select(self):
@@ -184,14 +183,8 @@ def main():
     buttonframe.pack(fill='x')
 
     checkbox = tk.Checkbutton(root, text="Explicit", variable=checkbox_var)
-    # checkbox = customtkinter.CTkCheckBox(master=root, text="Explicit", variable=checkbox_var)
     checkbox.pack(pady=10)
 
-    # save_button = tk.Button(root, text="Calculate similar songs",
-    #                         command=lambda: save_all_information(root,
-    #                                                              priority_list_object,
-    #                                                              song_selection_object,
-    #                                                              checkbox_var.get()))
     save_button = tk.Button(root, text="Calculate similar songs",
                             command=lambda: save_all_information(root,
                                                                  priority_list_object,
@@ -203,3 +196,10 @@ def main():
 
 if __name__ == "__main__":
     main()
+    import python_ta
+
+    python_ta.check_all(config={
+        'max-line-length': 120,
+        'disable': ['E1136', 'W0221'],
+        'max-nested-blocks': 4
+    })
