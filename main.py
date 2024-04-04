@@ -83,7 +83,6 @@ def main() -> None:
     root.state('zoomed')
     HomeScreen(root)
     root.title("MelodyMatcher")
-    root.geometry("750x600")
     root.mainloop()
 
 

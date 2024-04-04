@@ -52,7 +52,6 @@ def final_window(top_songs: list[ad.Song], selected_song: str):
     root = tk.Tk()
     root.state('zoomed')
     root.title("Top 10 songs")
-    root.geometry("600x600")
 
     label = tk.Label(root, text=f"10 songs that are similar to: {selected_song}", font=('Times New Roman', 18))
     label.pack(pady=10)

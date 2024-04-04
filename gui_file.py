@@ -177,7 +177,6 @@ def main() -> None:
     root = tk.Tk()
     root.state('zoomed')
     root.title('MelodyMatcher')
-    root.geometry("500x900")
 
     main_frame = Frame(root)
     main_frame.pack(fill=BOTH, expand=1)
