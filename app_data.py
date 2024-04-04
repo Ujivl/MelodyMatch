@@ -79,6 +79,8 @@ class WeightedGraph:
     """
     A weighted graph with each song being the node and each edge having a weight to denote similarity between songs.
 
+    Instance Attributes:
+        - chosen_song: The song object that the user picked.
     """
     # Private Instance Attributes:
     #     - _vertices:
