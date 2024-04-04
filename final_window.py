@@ -4,10 +4,7 @@ are diplayed to the user. FinalListBox is a class here that displays the 10 song
 information about the song is displayed under the listbox.
 """
 import tkinter as tk
-
 import app_data as ad
-
-import python_ta
 
 
 class FinalListBox(tk.Listbox):
@@ -16,8 +13,11 @@ class FinalListBox(tk.Listbox):
     the items, which in turn displays information about the songs.
 
     Instance Attributes:
-
+        songs: A list of songs that are most similar to the user selected songs or attributes.
+        output_text: a text widget that displays all the information about the song the user clicks on.
     """
+    songs: list[ad.Song]
+    output_text: tk.Text
 
     def __init__(self, root: tk.Tk, background: str, songs: list[ad.Song], output_text: tk.Text) -> None:
         """
@@ -103,8 +103,3 @@ def description(item: str) -> None:
     label.pack()
 
     root.mainloop()
-
-
-python_ta.check_all(config={
-        'max-line-length': 120
-    })
