@@ -10,7 +10,7 @@ import app_data as ad
 import final_window
 from app_data import file_name
 
-g, song_name_list, genre = ad.create_graph_without_edges(file_name)
+G, SONG_NAME_LIST, GENRE = ad.create_graph_without_edges(file_name)
 
 
 class DragDropListbox(tk.Listbox):
@@ -26,7 +26,7 @@ class DragDropListbox(tk.Listbox):
 
     curIndex: Union[None, float]
 
-    def __init__(self, root: tk.Tk, background: str):
+    def __init__(self, root: tk.Tk, background: str) -> None:
         """
         Initializes a dragdroplistbox object that lets the user drag around the items in the listbox
         """
@@ -60,14 +60,14 @@ class DragDropListbox(tk.Listbox):
         self.attributes_with_weights = {}
         self.curIndex = None
 
-    def set_current(self, event):
+    def set_current(self, event) -> None:
         """
         When the left mouse is clicked, this function gets called. It takes in the mouse y coordinate and assigns it to
         currIndex.
         """
         self.curIndex = self.nearest(event.y)
 
-    def shift_selection(self, event):
+    def shift_selection(self, event) -> None:
         """
         gets the nearest position where the mouse is moved and then moves it down or above based on whether it is lesser
         or greater than the currIndex
@@ -85,7 +85,7 @@ class DragDropListbox(tk.Listbox):
             self.insert(i - 1, x)
             self.curIndex = i
 
-    def save_prioritization(self):
+    def save_prioritization(self) -> None:
         """
         Saves the prioritized items, and adds it to the attribute_with_weights dictionary with the attribute name as the
         key.
@@ -107,7 +107,7 @@ class DropdownBox:
 
     selected_song: str = "Oops!...I Did It Again"
 
-    def __init__(self, root):
+    def __init__(self, root: tk.Tk) -> None:
         """
         initializes the DropdownBox object
         """
@@ -116,13 +116,13 @@ class DropdownBox:
         self.label = tk.Label(root, text="Select a Song:", font=('Times New Roman', 18))
         self.label.pack()
 
-        self.options = song_name_list
+        self.options = SONG_NAME_LIST
         self.value_inside = tk.StringVar(root)
         self.value_inside.set(self.options[0])
         self.dropdown_menu = tk.OptionMenu(root, self.value_inside, *self.options)
         self.dropdown_menu.pack()
 
-    def on_select(self):
+    def on_select(self) -> None:
         """
         Gets the chosen song, this function gets called when the calculate similar songs button is pressed, it takes the
         current selected song in the dropdown box and saves it to selected_song
@@ -130,7 +130,8 @@ class DropdownBox:
         self.selected_song = self.value_inside.get()
 
 
-def save_all_information(root, priority_list_object: DragDropListbox, drag_drop_object: DropdownBox, explicit: bool):
+def save_all_information(root, priority_list_object: DragDropListbox,
+                         drag_drop_object: DropdownBox, explicit: bool) -> None:
     """
     saves all the information and adds the weighted edges to the graph, then the function sorts all the vertexes based
     on weight in descending order and gets the first 10 elements. After that the root is destroyed and the final window
@@ -138,16 +139,16 @@ def save_all_information(root, priority_list_object: DragDropListbox, drag_drop_
     """
     drag_drop_object.on_select()
     priority_list_object.save_prioritization()
-    user_selected_song = g.return_and_save_chosen_song(drag_drop_object.selected_song)
-    g.add_all_weighted_edges(chosen_song=user_selected_song,
+    user_selected_song = G.return_and_save_chosen_song(drag_drop_object.selected_song)
+    G.add_all_weighted_edges(chosen_song=user_selected_song,
                              prioritylist=priority_list_object.attributes_with_weights,
                              explicit=explicit)
-    final_selected_songs = g.sort_weights(10)
+    final_selected_songs = G.sort_weights(10)
     root.destroy()
     final_window.final_window(final_selected_songs, drag_drop_object.selected_song)
 
 
-def main():
+def main() -> None:
     """
     The main function file, this is where the root and main window is called.
     """
