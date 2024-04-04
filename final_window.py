@@ -66,7 +66,7 @@ def description(item: str):
     """
     root = tk.Tk()
     root.title(item)
-    root.geometry('600x600')
+    root.geometry('600x100')
 
     text = ''
 
