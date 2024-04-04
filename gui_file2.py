@@ -1,5 +1,8 @@
 """
-file implementing the gui of the application
+This file implements gui file 2, which is the automatic song matcher. In this file, each major widget is separated into
+classes. The classes are: DragDropListbox and DropdownBox. DragDropListBox inherits from the built-in listbox widget,
+and is essentially a listbox where the user can switch the location of the elements. DropdownBox creates a dropdown
+widget that lets the user select the song they want similar songs to.
 """
 import tkinter as tk
 from typing import Union
@@ -84,24 +87,30 @@ class DragDropListbox(tk.Listbox):
 
     def save_prioritization(self):
         """
-        Saves the prioritized items and prints them out for now, this will chance later.
+        Saves the prioritized items, and adds it to the attribute_with_weights dictionary with the attribute name as the
+        key.
         """
         weight = 1
         prioritized_attributes = self.get(0, tk.END)
-        for attribute_imdex in range(len(prioritized_attributes) - 1, -1, -1):
-            self.attributes_with_weights[prioritized_attributes[attribute_imdex].lower()] = (10 ** weight)
+        for attribute_index in range(len(prioritized_attributes) - 1, -1, -1):
+            self.attributes_with_weights[prioritized_attributes[attribute_index].lower()] = (10 ** weight)
             weight += 1
-        print("Prioritized Items with weights: " + str(self.attributes_with_weights))
 
 
 class DropdownBox:
     """
-    Creates a dropdown menu
+    Creates a dropdown menu where the user can select songs
+
+    Instance Attributes:
+        - selected_song: A string value denoting the name of the song that the user picks through the dropdown menu.
     """
 
     selected_song: str = "Oops!...I Did It Again"
 
     def __init__(self, root):
+        """
+        initializes the DropdownBox object
+        """
         self.root = root
 
         self.label = tk.Label(root, text="Select a Song:", font=('Times New Roman', 18))
@@ -115,14 +124,17 @@ class DropdownBox:
 
     def on_select(self):
         """
-        Gets the chosen song.
+        Gets the chosen song, this function gets called when the calculate similar songs button is pressed, it takes the
+        current selected song in the dropdown box and saves it to selected_song
         """
         self.selected_song = self.value_inside.get()
 
 
 def save_all_information(root, priority_list_object: DragDropListbox, drag_drop_object: DropdownBox, explicit: bool):
     """
-    saves all the information and adds the weighted edges to the graph
+    saves all the information and adds the weighted edges to the graph, then the function sorts all the vertexes based
+    on weight in descending order and gets the first 10 elements. After that the root is destroyed and the final window
+    is called.
     """
     drag_drop_object.on_select()
     priority_list_object.save_prioritization()
@@ -133,14 +145,6 @@ def save_all_information(root, priority_list_object: DragDropListbox, drag_drop_
     final_selected_songs = g.sort_weights(10)
     root.destroy()
     final_window.final_window(final_selected_songs, drag_drop_object.selected_song)
-
-
-def what_is_item(item: str):
-    """artist: str, song_name: str, explicit: bool, year: int, popularity: int, danceability: float,
-    energy: float, key: int, loudness: float, mode: int, speechiness: float, acousticness: float,
-    instrumentalness: float, valence: float, tempo: float, genre: set[str]"""
-
-    final_window.description(item)
 
 
 def main():
@@ -162,20 +166,20 @@ def main():
     buttonframe.columnconfigure(1, weight=1)
     buttonframe.columnconfigure(2, weight=1)
 
-    dictionary = {"Genre?": [lambda: what_is_item('genre'), [0, 0]],
-                  "Year Released?": [lambda: what_is_item('year released'), [0, 1]],
-                  "Popularity?": [lambda: what_is_item('popularity'), [0, 2]],
-                  "Danceability?": [lambda: what_is_item('danceability'), [1, 0]],
-                  "Energy?": [lambda: what_is_item('energy'), [1, 1]],
-                  "Key?": [lambda: what_is_item('key'), [1, 2]],
-                  "Loudness?": [lambda: what_is_item('loudness'), [2, 0]],
-                  "Mode?": [lambda: what_is_item('mode'), [2, 1]],
-                  "Speechiness?": [lambda: what_is_item('speechiness'), [2, 2]],
-                  "Acousticness?": [lambda: what_is_item('acousticness'), [3, 0]],
-                  "Instrumentalness?": [lambda: what_is_item('instrumentalness'), [3, 1]],
-                  "Valence?": [lambda: what_is_item('valence'), [3, 2]],
-                  "Tempo?": [lambda: what_is_item('tempo'), [4, 0]],
-                  "Explicit?": [lambda: what_is_item('explicit'), [4, 1]]}
+    dictionary = {"Genre?": [lambda: final_window.description('genre'), [0, 0]],
+                  "Year Released?": [lambda: final_window.description('year released'), [0, 1]],
+                  "Popularity?": [lambda: final_window.description('popularity'), [0, 2]],
+                  "Danceability?": [lambda: final_window.description('danceability'), [1, 0]],
+                  "Energy?": [lambda: final_window.description('energy'), [1, 1]],
+                  "Key?": [lambda: final_window.description('key'), [1, 2]],
+                  "Loudness?": [lambda: final_window.description('loudness'), [2, 0]],
+                  "Mode?": [lambda: final_window.description('mode'), [2, 1]],
+                  "Speechiness?": [lambda: final_window.description('speechiness'), [2, 2]],
+                  "Acousticness?": [lambda: final_window.description('acousticness'), [3, 0]],
+                  "Instrumentalness?": [lambda: final_window.description('instrumentalness'), [3, 1]],
+                  "Valence?": [lambda: final_window.description('valence'), [3, 2]],
+                  "Tempo?": [lambda: final_window.description('tempo'), [4, 0]],
+                  "Explicit?": [lambda: final_window.description('explicit'), [4, 1]]}
 
     for item in dictionary:
         button = tk.Button(buttonframe, text=item, font=("Times New Roman", 18), command=dictionary[item][0])
