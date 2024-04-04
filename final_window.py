@@ -51,7 +51,6 @@ def final_window(top_songs: list[ad.Song], selected_song: str):
     the application. It creates the root for the final window and packs all the widgets.
     """
     root = tk.Tk()
-    root.state('zoomed')
     root.title("Top 10 songs")
     root.geometry("600x600")
 
