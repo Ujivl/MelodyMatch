@@ -184,7 +184,7 @@ def create_graph_without_edges(file: str) -> tuple[WeightedGraph, list[str], set
     g = WeightedGraph()
     li = []
     genre_name_set = set()
-    with open(file, 'r') as song_file:
+    with open(file, 'r', encoding="utf8") as song_file:
         line_reader = csv.reader(song_file)
         song_file.readline()
         for row in line_reader:
