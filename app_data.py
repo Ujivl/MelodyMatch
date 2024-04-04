@@ -8,7 +8,7 @@ import csv
 from typing import Any, Optional
 
 
-FILE_NAME = "songs_test_small.csv"
+FILE_NAME = "songs_normalize.csv"
 
 
 class Song:
