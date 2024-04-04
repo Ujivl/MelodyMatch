@@ -6,6 +6,8 @@ import csv
 from typing import Any, Optional
 
 
+file_name = "songs_test_small.csv"
+
 class Song:
     """
     A song object that stores the song, including all of its properties. This is where we will access a song's:
@@ -21,7 +23,7 @@ class Song:
         - popularity: the popularity of the song, the higher it is the more popular (int)
         - danceability: a float value that determines the level of danceability (float)
         - energy: measures intensity and activity, it's a value from 0 to 1 (float)
-        - key: Integers map to pitches using standard Pitch Class notation. E.g. 0 = C, 1 = C♯/D♭, 2 = D, and so on.
+        - key: Integers map to pitches using standard Pitch Class notation. E.G. 0 = C, 1 = C♯/D♭, 2 = D, and so on.
             If no key was detected, the value is -1. (int)
         - loudness: Decibal units of the song, goes from -60 to 0 (float)
         - mode: if the track is in major or minor, (1 is major, 0 is minor) (int)

@@ -3,12 +3,11 @@ file implementing the gui of the application
 """
 import tkinter as tk
 from tkinter import BOTH, Canvas, Frame, LEFT, RIGHT, Scale, Y
-
 import app_data as ad
 import final_window
-from app_data import Song
+from app_data import Song, file_name
 
-g, song_name_list, genre_name_set = ad.create_graph_without_edges("songs_test_small.csv")
+G, SONG_NAME_LIST, GENRE_NAME_SET = ad.create_graph_without_edges(file_name)
 
 
 class PrioritizeApp_1:
@@ -46,7 +45,7 @@ class PrioritizeApp_1:
                 self.question_label = tk.Label(second, text=item)
                 # self.question_label.pack()
                 self.question_label.grid(column=0, row=0)
-                self.options = sorted(genre_name_set)
+                self.options = sorted(GENRE_NAME_SET)
                 self.value_inside = tk.StringVar(second)
                 self.value_inside.set(self.options[0])  # Set the default value
                 self.dropdown_menu = tk.OptionMenu(second, self.value_inside, *self.options)
@@ -103,11 +102,11 @@ class PrioritizeApp_1:
 
         # WHAT TO SET PRIORITY SCORE?
         priority = {factor: 1000000 for factor in temp_song.similarity_factors}
-        g.add_vertex(temp_song)
-        g.chosen_song = temp_song
-        g.add_all_weighted_edges(chosen_song=g.chosen_song, prioritylist=priority, explicit=temp_song.explicit)
+        G.add_vertex(temp_song)
+        G.chosen_song = temp_song
+        G.add_all_weighted_edges(chosen_song=G.chosen_song, prioritylist=priority, explicit=temp_song.explicit)
 
-        chosen_songs = g.sort_weights(10)
+        chosen_songs = G.sort_weights(10)
         self.root.destroy()
         # Can edit later
         final_window.final_window(chosen_songs, "Your Values")
