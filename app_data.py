@@ -8,6 +8,7 @@ from typing import Any, Optional
 
 file_name = "songs_test_small.csv"
 
+
 class Song:
     """
     A song object that stores the song, including all of its properties. This is where we will access a song's:
