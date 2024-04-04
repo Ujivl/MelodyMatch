@@ -12,7 +12,11 @@ G, SONG_NAME_LIST, GENRE_NAME_SET = ad.create_graph_without_edges(file_name)
 
 class PrioritizeApp_1:
     """
-`
+    This class creates the user interface for a music prioritization application.
+
+    It initializes a graphical interface where users can select and prioritize various song
+    attributes such as genre, year released, and other characteristics to find songs that match
+    their preferences.
     """
 
     def __init__(self, second, root):
@@ -91,9 +95,12 @@ class PrioritizeApp_1:
         self.submit_button.grid(column=0, row=45)
 
     def submit_answer(self):
-        """artist: str, song_name: str, explicit: bool, year: int, popularity: int, danceability: float,
-        energy: float, key: int, loudness: float, mode: int, speechiness: float, acousticness: float,
-        instrumentalness: float, valence: float, tempo: float, genre: set[str]"""
+        """
+        Processes user input to create a Song object and finds the top 10 similar songs.
+        It gathers data from GUI entries, creates a Song object, and uses a graph to calculate
+        the similarity with other songs. Priority scores are assigned for the similarity factors.
+        The function then opens a new window displaying the top 10 similar songs.
+        """
 
         ans = [entry.get() for _, entry in self.entries.items()]
 
@@ -108,20 +115,19 @@ class PrioritizeApp_1:
 
         chosen_songs = G.sort_weights(10)
         self.root.destroy()
-        # Can edit later
         final_window.final_window(chosen_songs, "Your Values")
 
     def what_is_item(self, item: str):
-        """artist: str, song_name: str, explicit: bool, year: int, popularity: int, danceability: float,
-        energy: float, key: int, loudness: float, mode: int, speechiness: float, acousticness: float,
-        instrumentalness: float, valence: float, tempo: float, genre: set[str]"""
+        """
+        Displays a detailed description of the specified song attribute in a new window.
+        """
 
         final_window.description(item)
 
 
 def get_max_min(item: str) -> (float, float, float):
     """
-    Need to incoroprate for each properly
+    Returns the minimum, maximum, and step values for the scale of a given song attribute.
     """
     if item == 'year released':
         return 1990, 2020, 1
