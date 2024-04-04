@@ -161,6 +161,7 @@ def main() -> None:
     root = tk.Tk()
     root.state('zoomed')
     root.title("MelodyMatcher")
+    root.geometry("600x700")
 
     song_selection_object = DropdownBox(root)
     priority_list_object = DragDropListbox(root, "gray")
