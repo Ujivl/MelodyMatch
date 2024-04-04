@@ -4,6 +4,7 @@ are diplayed to the user. FinalListBox is a class here that displays the 10 song
 information about the song is displayed under the listbox.
 """
 import tkinter as tk
+
 import app_data as ad
 
 
@@ -72,37 +73,26 @@ def description(item: str):
     root.title(item)
     root.geometry('600x100')
 
-    text = ''
+    dictionary = {'genre': 'This is the genre of the song. This is considered to be the category the song is in.',
+                  'year released': 'This is the release year of the song.',
+                  'popularity': 'This is how well-known the song is. The higher the value,'
+                                ' the more popular the song is.',
+                  'danceability': "This is the song's ability to be used to "
+                                  "dance. A value of 0.0 is least danceable and 1.0 is most "
+                                  "danceable",
+                  'energy': 'This represents the measure of intensity and activity of the song.',
+                  'key': 'This is the key the track is in. ',
+                  'loudness': 'This is the overall loudness of the song in decibels (dB).',
+                  'mode': 'This represents the modality (major or minor) of the song.',
+                  'speechiness': 'Speechiness detects the presence of spoken words in a song.',
+                  'acousticness': 'A measure from 0.0 to 1.0 representing whether the song is acoustic.',
+                  'instrumentalness': 'This predicts whether the song contains no vocals.',
+                  'valence': 'A measure from 0.0 to 1.0 representing the musical positiveness shown by the song.',
+                  'explicit': 'This asks whether the song contains curse words or not.',
+                  'tempo': 'The estimated tempo of the song in beats per minute (BPM).'
+                  }
 
-    if item == 'genre':
-        text = 'This is the genre of the song. This is considered to be the category the song is in.'
-    elif item == 'year released':
-        text = 'This is the release year of the song.'
-    elif item == 'popularity':
-        text = 'This is how well-known the song is. The higher the value, the more popular the song is.'
-    elif item == 'danceability':
-        text = ("This is the song's ability to be used to dance. A value of 0.0 is least danceable and 1.0 is most "
-                "danceable")
-    elif item == 'energy':
-        text = 'This represents the measure of intensity and activity of the song.'
-    elif item == 'key':
-        text = 'This is the key the track is in. '
-    elif item == 'loudness':
-        text = 'This is the overall loudness of the song in decibels (dB).'
-    elif item == 'mode':
-        text = 'This represents the modality (major or minor) of the song.'
-    elif item == 'speechiness':
-        text = 'Speechiness detects the presence of spoken words in a song.'
-    elif item == 'acousticness':
-        text = 'A measure from 0.0 to 1.0 representing whether the song is acoustic.'
-    elif item == 'instrumentalness':
-        text = 'This predicts whether the song contains no vocals.'
-    elif item == 'valence':
-        text = 'A measure from 0.0 to 1.0 representing the musical positiveness shown by the song.'
-    elif item == 'explicit':
-        text = 'This asks whether the song contains curse words or not.'
-    elif item == 'tempo':
-        text = 'The estimated tempo of the song in beats per minute (BPM).'
+    text = dictionary[item]
 
     title = tk.Label(root, text=item.upper(), font=("Times New Roman", 30))
     title.pack()
