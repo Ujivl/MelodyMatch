@@ -8,9 +8,9 @@ import tkinter as tk
 from typing import Union
 import app_data as ad
 import final_window
-from app_data import file_name
+from app_data import FILE_NAME
 
-G, SONG_NAME_LIST, GENRE = ad.create_graph_without_edges(file_name)
+G, SONG_NAME_LIST, GENRE = ad.create_graph_without_edges(FILE_NAME)
 
 
 class DragDropListbox(tk.Listbox):

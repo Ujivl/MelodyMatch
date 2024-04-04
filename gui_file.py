@@ -7,9 +7,9 @@ from typing import Any
 
 import app_data as ad
 import final_window
-from app_data import Song, file_name
+from app_data import Song, FILE_NAME
 
-G, SONG_NAME_LIST, GENRE_NAME_SET = ad.create_graph_without_edges(file_name)
+G, SONG_NAME_LIST, GENRE_NAME_SET = ad.create_graph_without_edges(FILE_NAME)
 
 
 class PrioritizeApp:
