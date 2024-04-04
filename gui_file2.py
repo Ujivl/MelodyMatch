@@ -60,14 +60,14 @@ class DragDropListbox(tk.Listbox):
         self.attributes_with_weights = {}
         self.curIndex = None
 
-    def set_current(self, event) -> None:
+    def set_current(self, event: tk.Event) -> None:
         """
         When the left mouse is clicked, this function gets called. It takes in the mouse y coordinate and assigns it to
         currIndex.
         """
         self.curIndex = self.nearest(event.y)
 
-    def shift_selection(self, event) -> None:
+    def shift_selection(self, event: tk.Event) -> None:
         """
         gets the nearest position where the mouse is moved and then moves it down or above based on whether it is lesser
         or greater than the currIndex
@@ -93,7 +93,7 @@ class DragDropListbox(tk.Listbox):
         weight = 1
         prioritized_attributes = self.get(0, tk.END)
         for attribute_index in range(len(prioritized_attributes) - 1, -1, -1):
-            self.attributes_with_weights[prioritized_attributes[attribute_index].lower()] = (10 ** weight)
+            self.attributes_with_weights[prioritized_attributes[attribute_index].lower()] = 10 ** weight
             weight += 1
 
 
@@ -130,7 +130,7 @@ class DropdownBox:
         self.selected_song = self.value_inside.get()
 
 
-def save_all_information(root, priority_list_object: DragDropListbox,
+def save_all_information(root: tk.Tk, priority_list_object: DragDropListbox,
                          drag_drop_object: DropdownBox, explicit: bool) -> None:
     """
     saves all the information and adds the weighted edges to the graph, then the function sorts all the vertexes based
