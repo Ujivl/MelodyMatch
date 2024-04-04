@@ -88,3 +88,12 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+    import python_ta
+    python_ta.check_all(config={
+        'max-line-length': 120,
+        'disable': ['E1136', 'W0221'],
+        'extra-imports': ['csv', 'networkx'],
+        'allowed-io': ['load_weighted_review_graph'],
+        'allowed-import-modules': ["tkinter", "gui_file", "gui_file2", "python_ta"],
+        'max-nested-blocks': 4
+    })
