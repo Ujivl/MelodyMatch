@@ -134,7 +134,7 @@ def get_max_min(item: str) -> (float, float, float):
     elif item == 'key':
         return 0, 11, 1
     elif item == 'loudness':
-        return -20.5, -0.28, 0.01
+        return -0.28, -20.5, -0.01
     elif item == 'mode':
         return 0, 1, 1
     elif item == 'speechiness':
