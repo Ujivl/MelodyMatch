@@ -149,6 +149,7 @@ class WeightedGraph:
             #  Uses intersection over union to get similarity value for all the genres
             numerator = len(chosen_song.similarity_factors[factor].intersection(other_song.similarity_factors[factor]))
             denominator = len(chosen_song.similarity_factors[factor].union(other_song.similarity_factors[factor]))
+            # we add a million because the ratio has a low weight because of the lack of genres in the song
             return (numerator / denominator) * 1000000
         elif abs(chosen_song.similarity_factors[factor] - other_song.similarity_factors[factor]) != 0:
             return 1 / (abs(chosen_song.similarity_factors[factor] - other_song.similarity_factors[factor]))
