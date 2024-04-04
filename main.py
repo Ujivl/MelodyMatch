@@ -1,3 +1,10 @@
+"""
+This is the main module for the MelodyMatcher application, a graphical user interface designed
+using Tkinter. It allows users to choose between a manual or an automatic method for inputting their
+music preferences. This module sets up the main window, initializes the HomeScreen class, and handles the
+main execution flow of the application.
+"""
+
 import tkinter as tk
 
 import gui_file
@@ -10,6 +17,8 @@ class HomeScreen:
     MelodyMatcher application. This interface is the main entry point for users to select their
     preferred method of receiving music recommendations.
     """
+    root: tk.Tk
+    image_resized: tk.PhotoImage
 
     def __init__(self, root):
         self.root = root
@@ -47,14 +56,14 @@ class HomeScreen:
 
         buttonframe.pack(fill='x')
 
-    def open_project_one(self):
+    def open_project_one(self) -> None:
         """
         Destroy home window, and call upon Gui_1
         """
         self.root.destroy()
         gui_file.main()
 
-    def open_project_two(self):
+    def open_project_two(self) -> None:
         """
        Destroy home window, and call upon Gui_2
        """
@@ -77,8 +86,8 @@ if __name__ == "__main__":
     main()
     import python_ta
 
-    #python_ta.check_all(config={
-        #'max-line-length': 120,
-        #'disable': ['E1136', 'W0221'],
-        #'max-nested-blocks': 4
-    #})
+    python_ta.check_all(config={
+        'max-line-length': 120,
+        'disable': ['E1136', 'W0221'],
+        'max-nested-blocks': 4
+    })
