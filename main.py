@@ -84,14 +84,3 @@ def main() -> None:
     root.title("MelodyMatcher")
     root.geometry("750x600")
     root.mainloop()
-
-
-if __name__ == "__main__":
-    main()
-    import python_ta
-
-    python_ta.check_all(config={
-        'max-line-length': 120,
-        'disable': ['E1136', 'W0221'],
-        'max-nested-blocks': 4
-    })
