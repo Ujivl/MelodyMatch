@@ -7,6 +7,8 @@ import tkinter as tk
 
 import app_data as ad
 
+import python_ta
+
 
 class FinalListBox(tk.Listbox):
     """
@@ -17,7 +19,7 @@ class FinalListBox(tk.Listbox):
 
     """
 
-    def __init__(self, root: tk.Tk, background: str, songs: list[ad.Song], output_text: tk.Text):
+    def __init__(self, root: tk.Tk, background: str, songs: list[ad.Song], output_text: tk.Text) -> None:
         """
         Initializes the finallistbox object.
         """
@@ -28,7 +30,7 @@ class FinalListBox(tk.Listbox):
         for song in self.songs:
             self.insert(tk.END, song.song_name)
 
-    def display_info(self, event):
+    def display_info(self, event: tk.Event) -> None:
         """
         This function is called when the left mouse button clicked. It fills a text box with information about the song
         that was clicked on.
@@ -45,7 +47,7 @@ class FinalListBox(tk.Listbox):
         self.output_text.pack(pady=10)
 
 
-def final_window(top_songs: list[ad.Song], selected_song: str):
+def final_window(top_songs: list[ad.Song], selected_song: str) -> None:
     """
     This function is called after the similar songs are calculated. It is essentially the last function being called in
     the application. It creates the root for the final window and packs all the widgets.
@@ -65,7 +67,7 @@ def final_window(top_songs: list[ad.Song], selected_song: str):
     root.mainloop()
 
 
-def description(item: str):
+def description(item: str) -> None:
     """
     This function creates a temporary window that displays information about the attribute that the user clicked [item].
     """
@@ -101,3 +103,8 @@ def description(item: str):
     label.pack()
 
     root.mainloop()
+
+
+python_ta.check_all(config={
+        'max-line-length': 120
+    })
