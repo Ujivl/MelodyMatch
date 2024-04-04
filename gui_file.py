@@ -19,6 +19,15 @@ class PrioritizeApp:
     It initializes a graphical interface where users can select and prioritize various song
     attributes such as genre, year released, and other characteristics to find songs that match
     their preferences.
+
+    Instance Attributes:
+    - root: The Tkinter Window
+    - second: The Tkinter Frame
+    - items: List of song characterisics
+    - entries: Key Value for each characteristic
+    - y_count: Column value to display each characteristic and its slider
+    - button: Button for each characterstic
+    - submit_button: Button to submit user entered value
     """
     root: tk.Tk
     second: Frame

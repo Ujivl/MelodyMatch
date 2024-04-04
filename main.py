@@ -16,6 +16,10 @@ class HomeScreen:
     The HomeScreen class is responsible for creating and managing the initial interface of the
     MelodyMatcher application. This interface is the main entry point for users to select their
     preferred method of receiving music recommendations.
+
+    Instance Attributes:
+        - root: The root Tkinter window.
+        - image_resized: A resized photo image for display.
     """
     root: tk.Tk
     image_resized: tk.PhotoImage
