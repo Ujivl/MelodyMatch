@@ -105,6 +105,8 @@ class DropdownBox:
 
     Instance Attributes:
         - selected_song: A string value denoting the name of the song that the user picks through the dropdown menu.
+        - root: The Tkinter Window.
+        - value_inside: A string variable that will store the name of the song.
     """
     root: tk.Tk
     value_inside: tk.StringVar
