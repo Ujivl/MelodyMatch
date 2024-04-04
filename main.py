@@ -84,3 +84,7 @@ def main() -> None:
     root.title("MelodyMatcher")
     root.geometry("750x600")
     root.mainloop()
+
+
+if __name__ == "__main__":
+    main()
