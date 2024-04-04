@@ -175,6 +175,7 @@ def main() -> None:
     """
     # Create the tkinter window and PrioritizeApp instance
     root = tk.Tk()
+    root.state('zoomed')
     root.title('MelodyMatcher')
     root.geometry("500x900")
 

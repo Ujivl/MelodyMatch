@@ -80,6 +80,7 @@ def main() -> None:
    The main function file, this is where the root and main window is called.
    """
     root = tk.Tk()
+    root.state('zoomed')
     HomeScreen(root)
     root.title("MelodyMatcher")
     root.geometry("750x600")
