@@ -176,7 +176,7 @@ def main() -> None:
     # Create the tkinter window and PrioritizeApp instance
     root = tk.Tk()
     root.title('MelodyMatcher')
-    root.geometry("500x900")
+    root.geometry("500x700")
 
     main_frame = Frame(root)
     main_frame.pack(fill=BOTH, expand=1)

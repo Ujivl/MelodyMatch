@@ -160,7 +160,7 @@ def main() -> None:
     # Create the tkinter window and PrioritizeApp instance
     root = tk.Tk()
     root.title("MelodyMatcher")
-    root.geometry("600x700")
+    root.geometry("600x800")
 
     song_selection_object = DropdownBox(root)
     priority_list_object = DragDropListbox(root, "gray")
