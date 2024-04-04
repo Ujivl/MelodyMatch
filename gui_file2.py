@@ -20,11 +20,14 @@ class DragDropListbox(tk.Listbox):
     items. This child class lets the user move it around.
 
     Instance Attributes:
-        - curIndex
+        - cur_index: An index value that holds the position of the current clicked on item in the listBox
+        - attributes_with_weights: At first this dictionary is empty, but later it will be filled with weights that
+            correspond to the song attributes that the user prioritized.
 
     """
 
-    curIndex: Union[None, float]
+    cur_index: Union[None, float]
+    attributes_with_weights: dict = {}
 
     def __init__(self, root: tk.Tk, background: str) -> None:
         """
@@ -34,7 +37,7 @@ class DragDropListbox(tk.Listbox):
         self.bind('<Button-1>', self.set_current)
         self.bind('<B1-Motion>', self.shift_selection)
 
-        self.items = [
+        items = [
             "year released",
             "popularity",
             "danceability",
@@ -50,22 +53,21 @@ class DragDropListbox(tk.Listbox):
             "genre"
         ]
 
-        self.selection = tk.Label(root, text="Please rank how you value these musical characteristics:",
-                                  font=('Times New Roman', 18))
-        self.selection.pack(pady=10)
+        selection = tk.Label(root, text="Please rank how you value these musical characteristics:",
+                             font=('Times New Roman', 18))
+        selection.pack(pady=10)
 
-        for item in self.items:
+        for item in items:
             self.insert(tk.END, item.capitalize())
         self.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
-        self.attributes_with_weights = {}
-        self.curIndex = None
+        self.cur_index = None
 
     def set_current(self, event: tk.Event) -> None:
         """
         When the left mouse is clicked, this function gets called. It takes in the mouse y coordinate and assigns it to
         currIndex.
         """
-        self.curIndex = self.nearest(event.y)
+        self.cur_index = self.nearest(event.y)
 
     def shift_selection(self, event: tk.Event) -> None:
         """
@@ -74,16 +76,16 @@ class DragDropListbox(tk.Listbox):
         """
 
         i = self.nearest(event.y)
-        if i < self.curIndex:
+        if i < self.cur_index:
             x = self.get(i)
             self.delete(i)
             self.insert(i + 1, x)
-            self.curIndex = i
-        elif i > self.curIndex:
+            self.cur_index = i
+        elif i > self.cur_index:
             x = self.get(i)
             self.delete(i)
             self.insert(i - 1, x)
-            self.curIndex = i
+            self.cur_index = i
 
     def save_prioritization(self) -> None:
         """
@@ -104,7 +106,8 @@ class DropdownBox:
     Instance Attributes:
         - selected_song: A string value denoting the name of the song that the user picks through the dropdown menu.
     """
-
+    root: tk.Tk
+    value_inside: tk.StringVar
     selected_song: str = "Oops!...I Did It Again"
 
     def __init__(self, root: tk.Tk) -> None:
@@ -113,14 +116,14 @@ class DropdownBox:
         """
         self.root = root
 
-        self.label = tk.Label(root, text="Select a Song:", font=('Times New Roman', 18))
-        self.label.pack()
+        label = tk.Label(root, text="Select a Song:", font=('Times New Roman', 18))
+        label.pack()
 
-        self.options = SONG_NAME_LIST
+        options = SONG_NAME_LIST
         self.value_inside = tk.StringVar(root)
-        self.value_inside.set(self.options[0])
-        self.dropdown_menu = tk.OptionMenu(root, self.value_inside, *self.options)
-        self.dropdown_menu.pack()
+        self.value_inside.set(options[0])
+        dropdown_menu = tk.OptionMenu(root, self.value_inside, *options)
+        dropdown_menu.pack()
 
     def on_select(self) -> None:
         """
