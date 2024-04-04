@@ -1,21 +1,24 @@
+"""
+The final window file is responsible for creating the final window of the application. This is where 10 similar songs
+are diplayed to the user. FinalListBox is a class here that displays the 10 songs, and when the user clicks on a song,
+information about the song is displayed under the listbox.
+"""
 import tkinter as tk
 import app_data as ad
 
 
 class FinalListBox(tk.Listbox):
     """
-    This class creates a listbox which contains items that can be moved through drag and drop. It is a child class
-    that inherits the Listbox widget built into the tkinter module. The list box module creates a box with ordered
-    items. This child class lets the user move it around.
+    This class implements a listbox that inherits from the built-in listbox widget. This widget lets the user click on
+    the items, which in turn displays information about the songs.
 
     Instance Attributes:
-        - curIndex
 
     """
 
     def __init__(self, root: tk.Tk, background: str, songs: list[ad.Song], output_text: tk.Text):
         """
-        Initializes a dragdroplistbox object that lets the user drag around the items in the listbox
+        Initializes the finallistbox object.
         """
         super().__init__(root, bg=background, width=50, justify="center")
         self.songs = songs
@@ -26,8 +29,8 @@ class FinalListBox(tk.Listbox):
 
     def display_info(self, event):
         """
-        When the left mouse is clicked, this function gets called. It takes in the mouse y coordinate and assigns it to
-        currIndex.
+        This function is called when the left mouse button clicked. It fills a text box with information about the song
+        that was clicked on.
         """
         i = self.nearest(event.y)
         chosen_song = self.songs[i]
@@ -43,7 +46,8 @@ class FinalListBox(tk.Listbox):
 
 def final_window(top_songs: list[ad.Song], selected_song: str):
     """
-    blah
+    This function is called after the similar songs are calculated. It is essentially the last function being called in
+    the application. It creates the root for the final window and packs all the widgets.
     """
     root = tk.Tk()
     root.title("Top 10 songs")
@@ -62,7 +66,7 @@ def final_window(top_songs: list[ad.Song], selected_song: str):
 
 def description(item: str):
     """
-    type shit
+    This function creates a temporary window that displays information about the attribute that the user clicked [item].
     """
     root = tk.Tk()
     root.title(item)
