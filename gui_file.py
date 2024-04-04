@@ -21,14 +21,14 @@ class PrioritizeApp:
     their preferences.
     """
     root: tk.Tk
-    second: tk.Tk
+    second: Frame
     items: list[str]
     entries: dict[str, Any]
     y_count: int
     button: tk.Button
     submit_button: tk.Button
 
-    def __init__(self, second: tk.Tk, root: tk.Tk) -> None:
+    def __init__(self, second: Frame, root: tk.Tk) -> None:
         self.root = root
         self.second = second
 
