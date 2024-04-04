@@ -3,6 +3,8 @@ file implementing the gui of the application
 """
 import tkinter as tk
 from tkinter import BOTH, Canvas, Frame, LEFT, RIGHT, Scale, Y
+from typing import Any
+
 import app_data as ad
 import final_window
 from app_data import Song, file_name
@@ -10,7 +12,7 @@ from app_data import Song, file_name
 G, SONG_NAME_LIST, GENRE_NAME_SET = ad.create_graph_without_edges(file_name)
 
 
-class PrioritizeApp_1:
+class PrioritizeApp:
     """
     This class creates the user interface for a music prioritization application.
 
@@ -18,8 +20,15 @@ class PrioritizeApp_1:
     attributes such as genre, year released, and other characteristics to find songs that match
     their preferences.
     """
+    root: tk.Tk
+    second: tk.Tk
+    items: list[str]
+    entries: dict[str, Any]
+    y_count: int
+    button: tk.Button
+    submit_button: tk.Button
 
-    def __init__(self, second, root):
+    def __init__(self, second: tk.Tk, root: tk.Tk) -> None:
         self.root = root
         self.second = second
 
@@ -42,35 +51,35 @@ class PrioritizeApp_1:
         ]
 
         self.entries = {}
-        y_count = 0
+        self.y_count = 0
 
         for item in self.items:
             if item == 'genre':
-                self.question_label = tk.Label(second, text=item)
+                question_label = tk.Label(second, text=item)
                 # self.question_label.pack()
-                self.question_label.grid(column=0, row=0)
-                self.options = sorted(GENRE_NAME_SET)
-                self.value_inside = tk.StringVar(second)
-                self.value_inside.set(self.options[0])  # Set the default value
-                self.dropdown_menu = tk.OptionMenu(second, self.value_inside, *self.options)
-                self.dropdown_menu.grid(column=0, row=1)
-                self.entries[item] = self.value_inside
+                question_label.grid(column=0, row=0)
+                options = sorted(GENRE_NAME_SET)
+                value_inside = tk.StringVar(second)
+                value_inside.set(options[0])  # Set the default value
+                dropdown_menu = tk.OptionMenu(second, value_inside, *options)
+                dropdown_menu.grid(column=0, row=1)
+                self.entries[item] = value_inside
 
             elif item == 'explicit':
-                self.checkbox_var = tk.BooleanVar()
-                self.check = tk.Checkbutton(second, text="Explicit", variable=self.checkbox_var)
-                self.check.grid(column=0, row=40)
-                self.entries[item] = self.checkbox_var
+                checkbox_var = tk.BooleanVar()
+                check = tk.Checkbutton(second, text="Explicit", variable=checkbox_var)
+                check.grid(column=0, row=40)
+                self.entries[item] = checkbox_var
 
             else:
-                self.question_label = tk.Label(second, text=item)
-                self.question_label.grid(column=0, row=2 * y_count + 3)
+                question_label = tk.Label(second, text=item)
+                question_label.grid(column=0, row=2 * self.y_count + 3)
                 minimum, maximum, index = get_max_min(item)
                 slider = Scale(second, from_=minimum, to=maximum, resolution=index, orient='horizontal')
-                slider.grid(column=0, row=2 * y_count + 4)
+                slider.grid(column=0, row=2 * self.y_count + 4)
                 self.entries[item] = slider
 
-            y_count += 1
+            self.y_count += 1
 
         dictionary = {"Genre?": [lambda: self.what_is_item('genre'), 1],
                       "Year Released?": [lambda: self.what_is_item('year released'), 6],
@@ -94,7 +103,7 @@ class PrioritizeApp_1:
         self.submit_button = tk.Button(second, text="Submit", command=self.submit_answer)
         self.submit_button.grid(column=0, row=45)
 
-    def submit_answer(self):
+    def submit_answer(self) -> None:
         """
         Processes user input to create a Song object and finds the top 10 similar songs.
         It gathers data from GUI entries, creates a Song object, and uses a graph to calculate
@@ -117,7 +126,7 @@ class PrioritizeApp_1:
         self.root.destroy()
         final_window.final_window(chosen_songs, "Your Values")
 
-    def what_is_item(self, item: str):
+    def what_is_item(self, item: str) -> None:
         """
         Displays a detailed description of the specified song attribute in a new window.
         """
@@ -133,8 +142,7 @@ def get_max_min(item: str) -> (float, float, float):
         return 1990, 2020, 1
     elif item == 'popularity':
         return 0, 100, 1
-    elif (item == 'danceability' or item == 'energy' or item == 'acousticness'
-          or item == 'instrumentalness' or item == 'valence'):
+    elif item in {'danceability', 'energy', 'acousticness', 'instrumentalness', 'valence'}:
         return 0, 1, 0.01
     elif item == 'key':
         return 0, 11, 1
@@ -148,9 +156,11 @@ def get_max_min(item: str) -> (float, float, float):
         return 0.02, 0.85, 0.01
     elif item == 'tempo':
         return 60, 211, 1
+    else:
+        return 0, 0, 0
 
 
-def main():
+def main() -> None:
     """
     The main function file, this is where the root and main window is called.
     """
@@ -173,7 +183,7 @@ def main():
     second_frame = Frame(canvas)
     canvas.create_window((0, 0), window=second_frame, anchor="nw")
 
-    PrioritizeApp_1(second_frame, root)
+    PrioritizeApp(second_frame, root)
 
     root.mainloop()
 
