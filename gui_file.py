@@ -3,8 +3,7 @@ file implementing the gui of the application
 """
 import tkinter as tk
 from tkinter import Scale
-from tkinter import ttk, Frame, Canvas, BOTH, LEFT, RIGHT, Y
-import customtkinter
+from tkinter import Frame, Canvas, BOTH, LEFT, RIGHT, Y
 
 import app_data as ad
 import final_window
@@ -52,9 +51,9 @@ class PrioritizeApp_1:
                 self.options = sorted(genre_name_set)
                 self.value_inside = tk.StringVar(second)
                 self.value_inside.set(self.options[0])  # Set the default value
-                # self.dropdown_menu = tk.OptionMenu(second, self.value_inside, *self.options)
-                self.dropdown_menu = customtkinter.CTkOptionMenu(master=second, variable=self.value_inside,
-                                                                 values=self.options)
+                self.dropdown_menu = tk.OptionMenu(second, self.value_inside, *self.options)
+                # self.dropdown_menu = customtkinter.CTkOptionMenu(master=second, variable=self.value_inside,
+                #                                                  values=self.options)
                 # self.dropdown_menu.pack()
                 self.dropdown_menu.grid(column=0, row=1)
                 self.entries[item] = self.value_inside
@@ -63,8 +62,8 @@ class PrioritizeApp_1:
 
             elif item == 'explicit':
                 self.checkbox_var = tk.BooleanVar()
-                # self.check = tk.Checkbutton(second, text="Explicit", variable=self.checkbox_var)
-                self.check = customtkinter.CTkCheckBox(master=second, text="Explicit", variable=self.checkbox_var)
+                self.check = tk.Checkbutton(second, text="Explicit", variable=self.checkbox_var)
+                # self.check = customtkinter.CTkCheckBox(master=second, text="Explicit", variable=self.checkbox_var)
                 # self.check.pack()
                 self.check.grid(column=0, row=40)
                 self.entries[item] = self.checkbox_var
@@ -101,11 +100,11 @@ class PrioritizeApp_1:
                       "Explicit?": [lambda: self.what_is_item('explicit'), 40]}
 
         for item in dictionary:
-            self.button = customtkinter.CTkButton(master=second, text=item, command=dictionary[item][0])
+            self.button = tk.Button(second, text=item, command=dictionary[item][0])
             self.button.grid(column=1, row=dictionary[item][1])
 
-        # self.submit_button = tk.Button(second, text="Submit", command=self.submit_answer)
-        self.submit_button = customtkinter.CTkButton(master=second, text="Submit", command=self.submit_answer)
+        self.submit_button = tk.Button(second, text="Submit", command=self.submit_answer)
+        # self.submit_button = customtkinter.CTkButton(master=second, text="Submit", command=self.submit_answer)
         # self.submit_button.pack(pady=1)
         self.submit_button.grid(column=0, row=45)
 
@@ -178,7 +177,7 @@ def main():
     canvas = Canvas(main_frame)
     canvas.pack(side=LEFT, fill=BOTH, expand=1)
 
-    scroller = ttk.Scrollbar(main_frame, orient="vertical", command=canvas.yview)
+    scroller = tk.Scrollbar(main_frame, orient="vertical", command=canvas.yview)
     scroller.pack(side=RIGHT, fill=Y)
     canvas.configure(yscrollcommand=scroller.set)
 

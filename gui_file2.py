@@ -5,7 +5,6 @@ import tkinter as tk
 from typing import Union
 import app_data as ad
 import final_window
-import customtkinter
 
 g, song_name_list, genre = ad.create_graph_without_edges("songs_test_small.csv")
 
@@ -110,8 +109,8 @@ class DropdownBox:
         self.options = song_name_list
         self.value_inside = tk.StringVar(root)
         self.value_inside.set(self.options[0])
-        # self.dropdown_menu = tk.OptionMenu(root, self.value_inside, *self.options)
-        self.dropdown_menu = customtkinter.CTkOptionMenu(master=root, variable=self.value_inside, values=self.options)
+        self.dropdown_menu = tk.OptionMenu(root, self.value_inside, *self.options)
+        # self.dropdown_menu = customtkinter.CTkOptionMenu(master=root, variable=self.value_inside, values=self.options)
         self.dropdown_menu.pack()
 
     def on_select(self):
@@ -179,13 +178,13 @@ def main():
                   "Explicit?": [lambda: what_is_item('explicit'), [4, 1]]}
 
     for item in dictionary:
-        button = customtkinter.CTkButton(master=buttonframe, text=item, font=("Times New Roman", 18), command=dictionary[item][0])
+        button = tk.Button(buttonframe, text=item, font=("Times New Roman", 18), command=dictionary[item][0])
         button.grid(row=dictionary[item][1][0], column=dictionary[item][1][1], sticky=tk.W + tk.E)
 
     buttonframe.pack(fill='x')
 
-    # checkbox = tk.Checkbutton(root, text="Explicit", variable=checkbox_var)
-    checkbox = customtkinter.CTkCheckBox(master=root, text="Explicit", variable=checkbox_var)
+    checkbox = tk.Checkbutton(root, text="Explicit", variable=checkbox_var)
+    # checkbox = customtkinter.CTkCheckBox(master=root, text="Explicit", variable=checkbox_var)
     checkbox.pack(pady=10)
 
     # save_button = tk.Button(root, text="Calculate similar songs",
@@ -193,11 +192,11 @@ def main():
     #                                                              priority_list_object,
     #                                                              song_selection_object,
     #                                                              checkbox_var.get()))
-    save_button = customtkinter.CTkButton(master=root, text="Calculate similar songs",
-                                          command=lambda: save_all_information(root,
-                                                                               priority_list_object,
-                                                                               song_selection_object,
-                                                                               checkbox_var.get()))
+    save_button = tk.Button(root, text="Calculate similar songs",
+                            command=lambda: save_all_information(root,
+                                                                 priority_list_object,
+                                                                 song_selection_object,
+                                                                 checkbox_var.get()))
     save_button.pack(pady=50)
     root.mainloop()
 
