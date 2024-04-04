@@ -2,12 +2,10 @@
 file implementing the gui of the application
 """
 import tkinter as tk
-from tkinter import Scale
-from tkinter import Frame, Canvas, BOTH, LEFT, RIGHT, Y
+from tkinter import BOTH, Canvas, Frame, LEFT, RIGHT, Scale, Y
 
 import app_data as ad
 import final_window
-
 from app_data import Song
 
 g, song_name_list, genre_name_set = ad.create_graph_without_edges("songs_test_small.csv")
@@ -52,35 +50,22 @@ class PrioritizeApp_1:
                 self.value_inside = tk.StringVar(second)
                 self.value_inside.set(self.options[0])  # Set the default value
                 self.dropdown_menu = tk.OptionMenu(second, self.value_inside, *self.options)
-                # self.dropdown_menu = customtkinter.CTkOptionMenu(master=second, variable=self.value_inside,
-                #                                                  values=self.options)
-                # self.dropdown_menu.pack()
                 self.dropdown_menu.grid(column=0, row=1)
                 self.entries[item] = self.value_inside
-                # self.button = tk.Button(root, text=f"{item}?", command=lambda: self.what_is_item(item))
-                # self.button.grid(column=1, row=1)
 
             elif item == 'explicit':
                 self.checkbox_var = tk.BooleanVar()
                 self.check = tk.Checkbutton(second, text="Explicit", variable=self.checkbox_var)
-                # self.check = customtkinter.CTkCheckBox(master=second, text="Explicit", variable=self.checkbox_var)
-                # self.check.pack()
                 self.check.grid(column=0, row=40)
                 self.entries[item] = self.checkbox_var
-                # self.button = tk.Button(root, text=f"{item}?", command=lambda: self.what_is_item(item))
-                # self.button.grid(column=1, row=40)
 
             else:
                 self.question_label = tk.Label(second, text=item)
-                # self.question_label.pack()
                 self.question_label.grid(column=0, row=2 * y_count + 3)
                 minimum, maximum, index = get_max_min(item)
                 slider = Scale(second, from_=minimum, to=maximum, resolution=index, orient='horizontal')
-                # slider.pack(pady=1)
                 slider.grid(column=0, row=2 * y_count + 4)
                 self.entries[item] = slider
-                # self.button = tk.Button(root, text=f"{item}?", command=lambda: self.what_is_item(item))
-                # self.button.grid(column=1, row=2 * y_count + 4)
 
             y_count += 1
 
@@ -104,8 +89,6 @@ class PrioritizeApp_1:
             self.button.grid(column=1, row=dictionary[item][1])
 
         self.submit_button = tk.Button(second, text="Submit", command=self.submit_answer)
-        # self.submit_button = customtkinter.CTkButton(master=second, text="Submit", command=self.submit_answer)
-        # self.submit_button.pack(pady=1)
         self.submit_button.grid(column=0, row=45)
 
     def submit_answer(self):
@@ -113,7 +96,7 @@ class PrioritizeApp_1:
         energy: float, key: int, loudness: float, mode: int, speechiness: float, acousticness: float,
         instrumentalness: float, valence: float, tempo: float, genre: set[str]"""
 
-        ans = [entry.get() for item, entry in self.entries.items()]
+        ans = [entry.get() for _, entry in self.entries.items()]
 
         temp_song = Song('user', 'user song', ans[13], ans[1], ans[2], ans[3], ans[4], ans[5], ans[6],
                          ans[7], ans[8], ans[9], ans[10], ans[11], ans[12], set(ans[0].split(',')))
@@ -181,7 +164,7 @@ def main():
     scroller.pack(side=RIGHT, fill=Y)
     canvas.configure(yscrollcommand=scroller.set)
 
-    canvas.bind('<Configure>', lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+    canvas.bind('<Configure>', lambda _: canvas.configure(scrollregion=canvas.bbox("all")))
     second_frame = Frame(canvas)
     canvas.create_window((0, 0), window=second_frame, anchor="nw")
 

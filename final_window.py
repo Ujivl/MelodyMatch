@@ -13,11 +13,11 @@ class FinalListBox(tk.Listbox):
 
     """
 
-    def __init__(self, root: tk.Tk, background: str, songs:  list[ad.Song], output_text: tk.Text):
+    def __init__(self, root: tk.Tk, background: str, songs: list[ad.Song], output_text: tk.Text):
         """
         Initializes a dragdroplistbox object that lets the user drag around the items in the listbox
         """
-        super().__init__(root, bg=background, width=50,  justify="center")
+        super().__init__(root, bg=background, width=50, justify="center")
         self.songs = songs
         self.bind('<Button-1>', self.display_info)
         self.output_text = output_text
@@ -58,6 +58,7 @@ def final_window(top_songs: list[ad.Song], selected_song: str):
     listbox = FinalListBox(root, background="gray", songs=top_songs, output_text=textbox)
     listbox.pack()
     root.mainloop()
+
 
 def description(item: str):
     """
