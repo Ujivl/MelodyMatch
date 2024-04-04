@@ -20,7 +20,7 @@ class HomeScreen:
     root: tk.Tk
     image_resized: tk.PhotoImage
 
-    def __init__(self, root):
+    def __init__(self, root: tk.Tk) -> None:
         self.root = root
 
         title_frame = tk.Frame(self.root)
@@ -71,7 +71,7 @@ class HomeScreen:
         gui_file2.main()
 
 
-def main():
+def main() -> None:
     """
    The main function file, this is where the root and main window is called.
    """
