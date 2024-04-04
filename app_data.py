@@ -8,7 +8,7 @@ import csv
 from typing import Any, Optional
 
 
-file_name = "songs_test_small.csv"
+FILE_NAME = "songs_test_small.csv"
 
 
 class Song:
@@ -151,7 +151,7 @@ class WeightedGraph:
             denominator = len(chosen_song.similarity_factors[factor].union(other_song.similarity_factors[factor]))
             return (numerator / denominator) * 1000000
         elif abs(chosen_song.similarity_factors[factor] - other_song.similarity_factors[factor]) != 0:
-            return 1/(abs(chosen_song.similarity_factors[factor] - other_song.similarity_factors[factor]))
+            return 1 / (abs(chosen_song.similarity_factors[factor] - other_song.similarity_factors[factor]))
         else:
             return 1000000
 
