@@ -1,5 +1,7 @@
 """
-Song class file
+This file includes all the back-end for the program. It includes the song class, weighted vertex class, weighted graph
+class, and the create_graph_without_edges function. This function creates the graph and adds all the song objects by
+parsing through the csv file.
 """
 from __future__ import annotations
 import csv
@@ -69,7 +71,7 @@ class Song:
 
 
 class _WeightedVertex:
-    """A vertex in a weighted book review graph, used to represent a Song.
+    """A vertex in a weighted graph, used to represent a Song.
 
     Instance Attributes:
         - item: The data stored in this vertex, representing a song.
