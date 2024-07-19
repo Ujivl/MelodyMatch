@@ -1,6 +1,6 @@
 """
 The final window file is responsible for creating the final window of the application. This is where 10 similar songs
-are diplayed to the user. FinalListBox is a class here that displays the 10 songs, and when the user clicks on a song,
+are diplayed to the user, FinalListBox is a class here that displays the 10 songs, and when the user clicks on a song,
 information about the song is displayed under the listbox.
 """
 import tkinter as tk
